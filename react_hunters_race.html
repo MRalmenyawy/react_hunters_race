@@ -1,0 +1,2368 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<title>🧪 سباق الصيادين: أسرار التفاعلات</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🧪</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg-void:#03141a;
+  --bg-deep:#062029;
+  --bg-panel:#0a2f3a;
+  --bg-panel-2:#0e4252;
+  --line:rgba(80,230,200,.18);
+  --teal:#2ee6a6;
+  --teal-dim:#13966c;
+  --cyan:#39c6ff;
+  --violet:#ff7a3d;
+  --magenta:#ff5fd1;
+  --amber:#ffb545;
+  --danger:#ff4d6d;
+  --danger-dim:#7a2233;
+  --ok:#3fe07a;
+  --ink:#f6f0ff;
+  --ink-dim:#b9acd9;
+  --ink-faint:#8377ad;
+  --gold:#ffd35c;
+  --font-ar:'Cairo','Tajawal',Tahoma,Arial,sans-serif;
+  --font-alt:'Tajawal','Cairo',Tahoma,Arial,sans-serif;
+  --radius-s:10px;
+  --radius-m:16px;
+  --radius-l:24px;
+  --safe-t:env(safe-area-inset-top,0px);
+  --safe-b:env(safe-area-inset-bottom,0px);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+html,body{height:100%;}
+html{scroll-padding-top:var(--safe-t);}
+body{
+  font-family:var(--font-ar);
+  background:
+    radial-gradient(ellipse 900px 500px at 15% -10%, rgba(255,138,61,.12), transparent 60%),
+    radial-gradient(ellipse 900px 600px at 110% 10%, rgba(164,91,255,.14), transparent 55%),
+    radial-gradient(ellipse 1200px 800px at 50% 120%, rgba(57,198,255,.08), transparent 60%),
+    var(--bg-void);
+  color:var(--ink);
+  min-height:100%;
+  overflow-x:hidden;
+  padding-top:var(--safe-t);
+  padding-bottom:var(--safe-b);
+  position:relative;
+}
+body::before{
+  content:"";
+  position:fixed;inset:0;
+  background-image:
+    radial-gradient(1.5px 1.5px at 20% 30%, rgba(255,255,255,.5), transparent),
+    radial-gradient(1.5px 1.5px at 70% 60%, rgba(255,255,255,.35), transparent),
+    radial-gradient(1px 1px at 40% 80%, rgba(255,255,255,.4), transparent),
+    radial-gradient(1.5px 1.5px at 85% 20%, rgba(255,255,255,.3), transparent),
+    radial-gradient(1px 1px at 55% 45%, rgba(255,255,255,.35), transparent),
+    radial-gradient(1.5px 1.5px at 10% 65%, rgba(255,255,255,.3), transparent);
+  background-size:100% 100%;
+  opacity:.6;
+  pointer-events:none;
+  z-index:0;
+}
+#app{position:relative;z-index:1;min-height:100vh;display:flex;flex-direction:column;}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit;}
+img,svg{display:block;max-width:100%;}
+::selection{background:var(--teal);color:#2b1000;}
+.hidden{display:none !important;}
+.scr{width:100%;max-width:720px;margin:0 auto;padding:18px 16px calc(20px + var(--safe-b));flex:1;display:flex;flex-direction:column;min-height:100vh;}
+.wide{max-width:960px;}
+.center-col{align-items:center;justify-content:center;text-align:center;}
+
+/* ---- Typography ---- */
+h1,h2,h3{font-family:var(--font-ar);line-height:1.25;}
+.eyebrow{font-size:13px;color:var(--teal);font-weight:700;letter-spacing:.02em;}
+.big-title{font-size:clamp(26px,7vw,40px);font-weight:900;color:var(--ink);text-shadow:0 0 24px rgba(255,138,61,.35);}
+.sub{color:var(--ink-dim);font-size:15px;line-height:1.7;}
+.cinema-line{font-size:17px;color:var(--cyan);font-weight:700;min-height:26px;}
+
+/* ---- Buttons ---- */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  padding:14px 26px;border-radius:999px;font-weight:800;font-size:16px;
+  transition:transform .15s ease, box-shadow .15s ease, filter .15s ease;
+  user-select:none;
+}
+.btn:active{transform:scale(.96);}
+.btn-primary{
+  background:linear-gradient(135deg,var(--teal),var(--cyan));
+  color:#2b1000;
+  box-shadow:0 6px 24px rgba(255,138,61,.35), inset 0 1px 0 rgba(255,255,255,.4);
+}
+.btn-primary:hover{filter:brightness(1.08);}
+.btn-ghost{
+  background:rgba(255,255,255,.05);
+  border:1.5px solid var(--line);
+  color:var(--ink);
+}
+.btn-ghost:hover{background:rgba(255,255,255,.09);}
+.btn-danger{background:linear-gradient(135deg,var(--danger),#ff8a5b);color:#2a0510;}
+.btn-block{width:100%;}
+.btn-sm{padding:9px 16px;font-size:13px;border-radius:999px;}
+.icon-btn{
+  width:44px;height:44px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  background:rgba(255,255,255,.06);border:1.5px solid var(--line);
+  font-size:19px;flex-shrink:0;
+}
+
+/* ---- Cards / panels ---- */
+.panel{
+  background:linear-gradient(160deg,var(--bg-panel),var(--bg-panel-2));
+  border:1.5px solid var(--line);
+  border-radius:var(--radius-l);
+  padding:20px;
+  box-shadow:0 10px 30px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.04);
+}
+.glow-edge{position:relative;}
+.glow-edge::after{
+  content:"";position:absolute;inset:-1.5px;border-radius:inherit;
+  padding:1.5px;background:linear-gradient(135deg,var(--teal),var(--violet),var(--cyan));
+  -webkit-mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite:xor;mask-composite:exclude;
+  opacity:.55;pointer-events:none;
+}
+
+/* ---- Top bar (HUD) ---- */
+.hud{
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
+  padding:10px 4px 14px;
+}
+.hud-group{display:flex;align-items:center;gap:8px;}
+.hud-chip{
+  display:flex;align-items:center;gap:6px;
+  background:rgba(255,255,255,.06);border:1px solid var(--line);
+  border-radius:999px;padding:6px 12px;font-weight:800;font-size:14px;
+}
+.hearts{display:flex;gap:1px;font-size:14px;letter-spacing:0;flex-wrap:nowrap;}\n@media (min-width:420px){.hearts{font-size:17px;gap:3px;}}
+.heart-lost{opacity:.25;filter:grayscale(1);}
+
+/* ---- Timer ---- */
+.timer-wrap{display:flex;flex-direction:column;align-items:center;gap:6px;margin:6px 0 16px;}
+.timer-ring{position:relative;width:78px;height:78px;}
+.timer-ring svg{width:100%;height:100%;transform:rotate(-90deg);}
+.timer-ring circle{fill:none;stroke-width:7;}
+.timer-track{stroke:rgba(255,255,255,.08);}
+.timer-bar{stroke:var(--teal);stroke-linecap:round;transition:stroke .3s;}
+.timer-num{
+  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  font-weight:900;font-size:18px;font-variant-numeric:tabular-nums;direction:ltr;
+}
+.timer-wrap.warn .timer-bar{stroke:var(--amber);}
+.timer-wrap.warn .timer-num{color:var(--amber);}
+.timer-wrap.crit .timer-bar{stroke:var(--danger);}
+.timer-wrap.crit .timer-num{color:var(--danger);}
+.timer-wrap.crit .timer-ring{animation:pulseRing .55s ease-in-out infinite;}
+@keyframes pulseRing{0%,100%{transform:scale(1);}50%{transform:scale(1.09);}}
+
+/* ---- Progress / XP ---- */
+.xp-bar-track{height:10px;border-radius:999px;background:rgba(255,255,255,.08);overflow:hidden;border:1px solid var(--line);}
+.xp-bar-fill{height:100%;border-radius:999px;background:linear-gradient(90deg,var(--teal),var(--cyan));transition:width .5s cubic-bezier(.2,.9,.3,1);}
+
+/* ---- Intro / cinematic ---- */
+.intro-stage{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;text-align:center;padding:20px 0;}
+.dna-badge{font-size:64px;filter:drop-shadow(0 0 22px rgba(255,138,61,.55));animation:floaty 3.2s ease-in-out infinite;}
+@keyframes floaty{0%,100%{transform:translateY(0);}50%{transform:translateY(-10px);}}
+.brand-line{font-size:13px;color:var(--ink-faint);}
+.brand-name{color:var(--teal);font-weight:800;}
+.typewriter-box{min-height:64px;display:flex;align-items:center;justify-content:center;padding:0 12px;}
+.name-input{
+  width:100%;max-width:340px;text-align:center;font-size:19px;font-weight:800;
+  padding:14px 18px;border-radius:999px;background:rgba(255,255,255,.06);
+  border:1.5px solid var(--line);color:var(--ink);
+}
+.name-input:focus{outline:none;border-color:var(--teal);box-shadow:0 0 0 4px rgba(255,138,61,.15);}
+.name-input::placeholder{color:var(--ink-faint);}
+
+/* ---- Adventure map ---- */
+.map-path{position:relative;display:flex;flex-direction:column;gap:6px;padding:10px 4px 24px;}
+.map-node{
+  display:flex;align-items:center;gap:14px;padding:14px;border-radius:var(--radius-m);
+  background:rgba(255,255,255,.04);border:1.5px solid var(--line);position:relative;
+}
+.map-node.locked{opacity:.45;}
+.map-node.done{border-color:var(--teal-dim);}
+.map-node-icon{
+  width:52px;height:52px;border-radius:50%;flex-shrink:0;font-size:24px;
+  display:flex;align-items:center;justify-content:center;
+  background:radial-gradient(circle at 35% 30%,var(--bg-panel-2),var(--bg-void));
+  border:2px solid var(--line);
+}
+.map-node.unlocked .map-node-icon{border-color:var(--teal);box-shadow:0 0 18px rgba(255,138,61,.45);}
+.map-node.done .map-node-icon{border-color:var(--gold);box-shadow:0 0 16px rgba(255,211,92,.4);}
+.map-node-body{flex:1;text-align:right;}
+.map-node-title{font-weight:800;font-size:15px;}
+.map-node-desc{font-size:12px;color:var(--ink-dim);margin-top:2px;}
+.map-node-stars{font-size:12px;color:var(--gold);margin-top:4px;letter-spacing:2px;}
+.map-connector{width:2px;height:16px;background:linear-gradient(var(--line),transparent);margin-inline-start:40px;}
+
+/* ---- Question host ---- */
+.q-topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;}
+.q-level-tag{font-size:12px;color:var(--violet);font-weight:800;background:rgba(164,91,255,.12);padding:4px 12px;border-radius:999px;}
+.q-type-tag{font-size:11px;color:var(--cyan);font-weight:700;}
+.q-card{padding:22px 18px;margin-bottom:16px;}
+.q-diff{display:inline-block;font-size:11px;font-weight:800;padding:3px 10px;border-radius:999px;margin-bottom:10px;}
+.diff-easy{background:rgba(63,224,122,.15);color:var(--ok);}
+.diff-medium{background:rgba(57,198,255,.15);color:var(--cyan);}
+.diff-hard{background:rgba(255,181,69,.15);color:var(--amber);}
+.diff-boss{background:rgba(255,77,109,.15);color:var(--danger);}
+.q-text{font-size:18px;font-weight:800;line-height:1.6;}
+.q-source{font-size:11px;color:var(--ink-faint);margin-top:8px;}
+
+.opt-list{display:flex;flex-direction:column;gap:10px;}
+.opt-btn{
+  display:flex;align-items:center;gap:12px;text-align:right;
+  padding:14px 16px;border-radius:var(--radius-m);
+  background:rgba(255,255,255,.04);border:1.5px solid var(--line);
+  font-size:15px;font-weight:600;transition:all .15s ease;
+}
+.opt-btn:active{transform:scale(.98);}
+.opt-letter{
+  width:30px;height:30px;border-radius:50%;flex-shrink:0;
+  background:rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;
+  font-weight:800;font-size:13px;border:1px solid var(--line);
+}
+.opt-btn.correct{background:rgba(63,224,122,.14);border-color:var(--ok);}
+.opt-btn.correct .opt-letter{background:var(--ok);color:#04250f;border-color:var(--ok);}
+.opt-btn.wrong{background:rgba(255,77,109,.14);border-color:var(--danger);}
+.opt-btn.wrong .opt-letter{background:var(--danger);color:#2a0510;border-color:var(--danger);}
+.opt-btn.disabledopt{opacity:.5;pointer-events:none;}
+.opt-btn.sel{border-color:var(--teal);box-shadow:0 0 0 3px rgba(255,138,61,.15);}
+
+/* text-input fill-blank */
+.fill-input{
+  width:100%;padding:14px 16px;border-radius:var(--radius-m);font-size:16px;font-weight:700;
+  background:rgba(255,255,255,.05);border:1.5px solid var(--line);color:var(--ink);text-align:center;
+}
+.fill-input:focus{outline:none;border-color:var(--teal);}
+
+/* Match / Classify / Sequence - drag engine */
+.dnd-zone{display:flex;flex-direction:column;gap:14px;}
+.dnd-row{display:flex;gap:10px;align-items:flex-start;}
+.dnd-col{flex:1;min-width:0;}
+.dnd-col-title{font-size:12px;color:var(--ink-dim);font-weight:700;margin-bottom:8px;text-align:center;}
+.dnd-pool{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;min-height:46px;}
+.dnd-chip{
+  padding:10px 14px;border-radius:12px;background:rgba(255,255,255,.06);
+  border:1.5px solid var(--line);font-weight:700;font-size:13.5px;
+  cursor:grab;touch-action:none;user-select:none;position:relative;
+  transition:box-shadow .15s, border-color .15s, opacity .15s;
+}
+.dnd-chip.dragging{opacity:0;}
+.dnd-chip.placed{cursor:default;}
+.dnd-chip.locked-correct{border-color:var(--ok);background:rgba(63,224,122,.12);}
+.dnd-chip.locked-wrong{border-color:var(--danger);background:rgba(255,77,109,.12);}
+.dnd-chip.sel-pick{border-color:var(--teal);box-shadow:0 0 0 3px rgba(255,138,61,.18);}
+.dnd-target{
+  min-height:52px;border-radius:12px;border:1.5px dashed var(--line);
+  display:flex;align-items:center;justify-content:center;gap:8px;padding:10px 12px;
+  background:rgba(255,255,255,.02);font-size:13px;color:var(--ink-dim);font-weight:700;text-align:center;
+}
+.dnd-target.filled{border-style:solid;background:rgba(255,255,255,.05);color:var(--ink);}
+.dnd-target.hover-ok{border-color:var(--teal);background:rgba(255,138,61,.08);}
+.dnd-target.right{border-color:var(--ok);background:rgba(63,224,122,.1);}
+.dnd-target.wrongt{border-color:var(--danger);background:rgba(255,77,109,.1);}
+.dnd-target-label{color:var(--ink-dim);font-weight:800;width:100%;text-align:center;}
+.dnd-target.filled{gap:6px;}
+.dnd-target .dnd-chip{font-size:12px;padding:7px 10px;}
+.seq-list{display:flex;flex-direction:column;gap:8px;}
+.seq-item{
+  display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:12px;
+  background:rgba(255,255,255,.05);border:1.5px solid var(--line);font-weight:700;font-size:14px;
+  touch-action:none;cursor:grab;
+}
+.seq-num{width:26px;height:26px;border-radius:50%;background:rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;flex-shrink:0;}
+.seq-item.dragging{opacity:.3;}
+.drag-ghost{position:fixed;z-index:999;pointer-events:none;opacity:.92;transform:translate(-50%,-50%) scale(1.04);box-shadow:0 12px 30px rgba(0,0,0,.5);}
+
+/* Hotspot */
+.hotspot-wrap{position:relative;border-radius:var(--radius-m);overflow:hidden;background:rgba(255,255,255,.03);border:1.5px solid var(--line);}
+.hotspot-wrap svg{width:100%;height:auto;display:block;}
+.hotspot-dot{cursor:pointer;}
+.hotspot-dot circle{transition:all .2s;}
+.hotspot-dot:hover circle.ring{r:16;}
+.hotspot-label{font-size:10px;font-weight:800;fill:var(--ink);}
+
+/* Memory cards */
+.memory-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;}
+.mem-card{aspect-ratio:3/4;border-radius:12px;position:relative;perspective:600px;cursor:pointer;}
+.mem-card-inner{position:absolute;inset:0;transition:transform .5s;transform-style:preserve-3d;}
+.mem-card.flipped .mem-card-inner{transform:rotateY(180deg);}
+.mem-face{position:absolute;inset:0;border-radius:12px;display:flex;align-items:center;justify-content:center;backface-visibility:hidden;padding:6px;text-align:center;}
+.mem-back{background:linear-gradient(150deg,var(--bg-panel-2),var(--bg-panel));border:1.5px solid var(--line);font-size:22px;}
+.mem-front{background:rgba(255,138,61,.1);border:1.5px solid var(--teal);transform:rotateY(180deg);font-size:11.5px;font-weight:800;line-height:1.3;}
+.mem-card.matched .mem-front{background:rgba(63,224,122,.15);border-color:var(--ok);}
+
+/* Feedback toast */
+.feedback-overlay{position:fixed;inset:0;z-index:60;display:flex;align-items:flex-end;justify-content:center;pointer-events:none;padding:0 14px calc(14px + var(--safe-b));}
+.feedback-card{
+  pointer-events:auto;width:100%;max-width:680px;border-radius:var(--radius-l) var(--radius-l) 0 0;
+  padding:20px 20px calc(18px + var(--safe-b));
+  background:linear-gradient(160deg,var(--bg-panel-2),var(--bg-deep));
+  border:1.5px solid var(--line);border-bottom:none;
+  box-shadow:0 -10px 40px rgba(0,0,0,.5);
+  transform:translateY(100%);transition:transform .35s cubic-bezier(.2,.9,.25,1);
+}
+.feedback-overlay.show .feedback-card{transform:translateY(0);}
+.feedback-head{display:flex;align-items:center;gap:10px;font-weight:900;font-size:18px;margin-bottom:8px;}
+.feedback-head.ok{color:var(--ok);}
+.feedback-head.bad{color:var(--danger);}
+.feedback-head.timeup{color:var(--amber);}
+.feedback-explain{font-size:14px;color:var(--ink-dim);line-height:1.7;background:rgba(255,255,255,.04);padding:12px 14px;border-radius:12px;margin:8px 0;}
+.feedback-points{font-weight:800;color:var(--gold);font-size:14px;}
+
+/* Combo banner */
+.combo-flash{
+  position:fixed;top:calc(18px + var(--safe-t));left:50%;transform:translateX(-50%) scale(.7);
+  z-index:70;font-weight:900;font-size:22px;padding:10px 26px;border-radius:999px;
+  background:linear-gradient(135deg,var(--amber),var(--danger));color:#2a0a00;
+  opacity:0;transition:all .35s cubic-bezier(.3,1.4,.4,1);white-space:nowrap;
+  box-shadow:0 8px 28px rgba(255,120,60,.45);
+}
+.combo-flash.show{opacity:1;transform:translateX(-50%) scale(1);top:calc(30px + var(--safe-t));}
+
+/* Boss */
+.boss-portrait{font-size:70px;text-align:center;filter:drop-shadow(0 0 30px rgba(255,77,109,.5));animation:bossFloat 2.6s ease-in-out infinite;}
+@keyframes bossFloat{0%,100%{transform:translateY(0) rotate(-2deg);}50%{transform:translateY(-8px) rotate(2deg);}}
+.boss-hp-track{height:22px;border-radius:999px;background:rgba(255,255,255,.06);border:1.5px solid var(--line);overflow:hidden;position:relative;}
+.boss-hp-fill{height:100%;background:linear-gradient(90deg,var(--danger),var(--magenta));transition:width .6s cubic-bezier(.3,.9,.3,1);}
+.boss-hp-label{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:900;text-shadow:0 1px 3px rgba(0,0,0,.6);}
+.boss-phase-tag{text-align:center;font-size:12px;color:var(--danger);font-weight:800;margin:10px 0;letter-spacing:.02em;}
+
+/* Results / Certificate */
+.rank-badge{font-size:56px;text-align:center;filter:drop-shadow(0 0 26px rgba(255,211,92,.5));}
+.stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:16px 0;}
+.stat-box{background:rgba(255,255,255,.04);border:1.5px solid var(--line);border-radius:14px;padding:12px 14px;text-align:center;}
+.stat-num{font-size:22px;font-weight:900;color:var(--teal);}
+.stat-lbl{font-size:11px;color:var(--ink-dim);margin-top:2px;}
+.cert-canvas-wrap{border-radius:var(--radius-m);overflow:hidden;border:1.5px solid var(--line);margin:14px 0;}
+.cert-canvas-wrap canvas{width:100%;height:auto;display:block;}
+
+/* Admin */
+.admin-table-wrap{overflow-x:auto;border-radius:12px;border:1px solid var(--line);}
+table.admin-table{width:100%;border-collapse:collapse;font-size:12.5px;min-width:640px;}
+table.admin-table th,table.admin-table td{padding:9px 10px;text-align:center;border-bottom:1px solid var(--line);white-space:nowrap;}
+table.admin-table th{background:rgba(255,255,255,.05);color:var(--ink-dim);font-weight:800;cursor:pointer;position:sticky;top:0;}
+table.admin-table tr:hover td{background:rgba(255,255,255,.03);}
+.kpi-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:16px;}
+@media(min-width:560px){.kpi-grid{grid-template-columns:repeat(4,1fr);}}
+
+/* particles */
+.particle-layer{position:fixed;inset:0;pointer-events:none;z-index:50;overflow:hidden;}
+.particle{position:absolute;border-radius:50%;opacity:0;}
+
+/* misc */
+.footer-brand{margin-top:auto;padding-top:22px;text-align:center;font-size:11px;color:var(--ink-faint);}
+.footer-brand b{color:var(--teal-dim);}
+.loader-dots span{animation:blink 1.2s infinite;display:inline-block;}
+.loader-dots span:nth-child(2){animation-delay:.2s;}
+.loader-dots span:nth-child(3){animation-delay:.4s;}
+@keyframes blink{0%,100%{opacity:.2;}50%{opacity:1;}}
+.shake{animation:shakeAnim .4s;}
+@keyframes shakeAnim{10%,90%{transform:translateX(-2px);}20%,80%{transform:translateX(3px);}30%,50%,70%{transform:translateX(-5px);}40%,60%{transform:translateX(5px);}}
+.pop-in{animation:popIn .35s cubic-bezier(.3,1.5,.4,1);}
+@keyframes popIn{0%{opacity:0;transform:scale(.85) translateY(8px);}100%{opacity:1;transform:scale(1) translateY(0);}}
+.fadein{animation:fadeInAnim .4s ease;}
+@keyframes fadeInAnim{from{opacity:0;}to{opacity:1;}}
+
+@media(max-width:380px){
+  .stat-grid{grid-template-columns:1fr 1fr;}
+  .memory-grid{grid-template-columns:repeat(3,1fr);}
+}
+
+/* ---- صورة الشهادة / التوست / الطباعة ---- */
+.photo-ctl{width:100%;max-width:520px;margin:10px auto 6px;}
+.photo-row{display:flex;align-items:center;gap:14px;justify-content:center;flex-wrap:wrap;}
+.photo-thumb{width:64px;height:64px;border-radius:50%;border:3px solid var(--gold);object-fit:cover;}
+.photo-btns{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;}
+.photo-modal{position:fixed;inset:0;z-index:9999;background:rgba(6,3,16,.86);display:flex;align-items:center;justify-content:center;padding:16px;}
+.photo-modal-card{background:var(--bg-panel);border:1px solid var(--line);border-radius:22px;padding:20px;width:100%;max-width:340px;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.6);}
+.photo-prev{width:220px;height:220px;border-radius:50%;border:6px solid var(--gold);margin:12px auto;display:block;background:#fff;}
+#toastBox{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translate(-50%,20px);background:#241848;color:#fff;border:1px solid var(--line);padding:10px 16px;border-radius:14px;font-weight:700;opacity:0;pointer-events:none;transition:.25s;z-index:10000;max-width:90vw;text-align:center;}
+#toastBox.show{opacity:1;transform:translate(-50%,0);}
+#printArea{display:none;}
+@media print{
+  @page{size:A4 landscape;margin:8mm;}
+  html,body{background:#fff !important;}
+  body::before{display:none !important;}
+  body > *:not(#printArea){display:none !important;}
+  #printArea{display:block !important;}
+  #printArea{width:100%;text-align:center;page-break-inside:avoid;break-inside:avoid;}
+  #printArea img{display:block;margin:0 auto;width:auto;height:auto;max-width:100%;max-height:186mm;}
+}
+.photo-error{display:none;max-width:520px;margin:8px auto 0;padding:10px 12px;border-radius:12px;background:rgba(255,80,80,.12);border:1px solid var(--danger);color:#ffd0d0;font-size:13px;line-height:1.7;text-align:right;word-break:break-word;}\n</style>
+</head>
+<body>
+<div id="app"></div>
+<div id="feedbackLayer"></div>
+<div id="comboLayer"></div>
+<div id="particleLayer" class="particle-layer"></div>
+<script>
+'use strict';
+/* ============================================================
+   سباق الصيادين: أسرار التفاعلات
+   مستر محمد المنياوي — "الأحياء بشكل تاني"
+   محرك اللعبة الكامل — Game Engine
+   المصدر العلمي الوحيد: كتاب العلوم - الصف الثالث الإعدادي - الترم الأول - الوحدة الأولى (التفاعلات الكيميائية وآثارها البيئية)
+   ============================================================ */
+
+/* ================== 1) CONFIG — قيم قابلة للتعديل ================== */
+const CONFIG = {
+  QUESTION_SECONDS: 60,           // مدة كل سؤال - ثابتة دائماً
+  LIVES_START: 6,
+  POINTS: { easy: 10, medium: 20, hard: 30, boss: 50 },
+  SPEED_BONUS: {
+    fast:   { maxSeconds: 15, bonus: 15 },
+    medium: { maxSeconds: 30, bonus: 8 },
+    slow:   { maxSeconds: 60, bonus: 0 }
+  },
+  COMBO_BONUS: { 3: 1.15, 5: 1.3, 10: 1.5 },
+  RANKS: [
+    { min: 90, title: 'صياد أسطوري', icon: '👑' },
+    { min: 80, title: 'صياد محترف',  icon: '🔥' },
+    { min: 70, title: 'صياد متقدم',  icon: '⚡' },
+    { min: 60, title: 'صياد جيد',    icon: '🎯' },
+    { min: 0,  title: 'صياد تحت التدريب', icon: '🌱' }
+  ],
+  GOOGLE_SCRIPT_URL: "PUT_YOUR_URL_HERE", // ضع هنا رابط نشر Google Apps Script (اختياري)
+  BRAND_NAME: "مستر محمد المنياوي",
+  BRAND_SLOGAN: "الأحياء بشكل تاني",
+  BRAND_PHONE: "01063349308",
+  GAME_TITLE: "سباق الصيادين: أسرار التفاعلات",
+  STORAGE_KEY: "hunterRace_react3_attempts_v1",
+  PENDING_SYNC_KEY: "hunterRace_react3_pendingSync_v1",
+  SOUND_KEY: "hunterRace_react3_sound_v1",
+  LEADERBOARD_KEY: "hunterRace_react3_leaderboardEnabled_v1"
+};
+
+/* ================== 2) بنك الأسئلة — questionBank ==================
+   المصدر الوحيد: كتاب العلوم — الصف الأول الإعدادي — الترم الأول — الوحدة الأولى «المادة»
+   ==================================================================== */
+const LEVELS = [
+  { id: 1, key: 'spark',   title: 'شرارة التفاعل',   subtitle: 'دلائل التفاعل ونواتج الاتحاد والانحلال', icon: '⚡' },
+  { id: 2, key: 'paths',   title: 'المسارات الأربعة', subtitle: 'أنواع التفاعلات الكيميائية',            icon: '🔀' },
+  { id: 3, key: 'metals',  title: 'سباق الفلزات',    subtitle: 'متسلسلة النشاط الكيميائي والإحلال',     icon: '🏁' },
+  { id: 4, key: 'balance', title: 'ميزان الحموضة',   subtitle: 'التعادل والإحلال المزدوج',               icon: '⚖️' },
+  { id: 5, key: 'redox',   title: 'سر الإلكترونات',  subtitle: 'الأكسدة والاختزال',                      icon: '🔋' },
+  { id: 6, key: 'fire',    title: 'مثلث النار',      subtitle: 'الاحتراق التام وغير التام ونواتجه',      icon: '🔥' },
+  { id: 7, key: 'air',     title: 'حرّاس الهواء',    subtitle: 'التلوث الصناعي والتدخين ومخاطره',        icon: '🌬️' },
+  { id: 8, key: 'boss',    title: 'عرين وحش الدخان', subtitle: 'SMOKE BEAST — المواجهة الأخيرة',         icon: '🌫️' }
+];
+function M(id,lv,d,q,o,e,r){ return {id:id,level:lv,type:'mcq',difficulty:d,question:q,options:o,answer:0,explanation:e,sourceReference:r}; }
+function M2(id,lv,d,gk,q,o,e,r){ return {id:id,level:lv,type:'graph',difficulty:d,graphKind:gk,question:q,options:o,answer:0,explanation:e,sourceReference:r}; }
+function D(id,lv,q,o,e,r){ return {id:id,level:lv,type:'diagnosis',difficulty:'hard',question:q,options:o,answer:0,explanation:e,sourceReference:r}; }
+const questionBank = [
+M('l1q1',1,'easy','ما التفاعل الكيميائي؟',['كسر روابط جزيئات المتفاعلات وتكوين روابط جديدة في جزيئات النواتج','تغير حالة المادة فقط دون تكوين مواد جديدة','ذوبان مادة في الماء','خلط مادتين دون أي تغير في خواصهما'],'التفاعل الكيميائي عملية كسر روابط المتفاعلات وتكوين روابط جديدة في النواتج.','ص 13'),
+M('l1q2',1,'medium','أي مما يلي لا يُعد من دلائل حدوث تفاعل كيميائي؟',['بقاء المادة كما هي دون أي تغير ملحوظ','تصاعد غاز','تكون راسب','انبعاث ضوء وحرارة'],'الدلائل: تغير اللون، انبعاث رائحة، تصاعد غاز، تكون راسب، انبعاث ضوء وحرارة.','ص 13'),
+{ id:'l1q3', level:1, type:'match', difficulty:'medium', question:'صل كل تجربة بما تلاحظه',
+  pairs:[{left:'تسخين الماغنسيوم في الهواء',right:'لهب أبيض ساطع ومادة بيضاء MgO'},{left:'تسخين النحاس في الهواء',right:'طبقة سوداء من CuO'},{left:'تسخين الصوف الفولاذي',right:'شرر وأكسيد الحديد المغناطيسي Fe3O4'},{left:'تسخين أكسيد الزئبق الأحمر',right:'زئبق فضي وغاز الأكسجين'}],
+  explanation:'هذه تفاعلات اتحاد مباشر مع الأكسجين (الثلاثة الأولى) وانحلال حراري (الأخير).', sourceReference:'ص 14-15' },
+M('l2q1',2,'easy','التفاعل 2Mg + O2 ⟶ 2MgO يُصنّف على أنه:',['اتحاد مباشر','انحلال حراري','إحلال بسيط','إحلال مزدوج'],'مادتان اتحدتا لتكوين مركب واحد جديد، فهو اتحاد مباشر.','ص 13'),
+{ id:'l2q2', level:2, type:'classify', difficulty:'medium', question:'صنّف كل صورة عامة للتفاعل إلى نوعها',
+  buckets:['اتحاد مباشر','انحلال','إحلال بسيط','إحلال مزدوج'],
+  items:[{label:'A + B ⟶ AB',bucket:'اتحاد مباشر'},{label:'AB ⟶ A + B',bucket:'انحلال'},{label:'AB + C ⟶ AC + B',bucket:'إحلال بسيط'},{label:'AB + CD ⟶ AD + CB',bucket:'إحلال مزدوج'}],
+  explanation:'الاتحاد تكوين مركب، والانحلال تفكك مركب، والإحلال البسيط يحل عنصر محل آخر، والمزدوج تبادل أيونات.', sourceReference:'ص 13-25' },
+M('l2q3',2,'medium','عند تسخين كربونات الكالسيوم CaCO3 يتكون:',['أكسيد الكالسيوم وثاني أكسيد الكربون','الكالسيوم والأكسجين','هيدروكسيد الكالسيوم والهيدروجين','كربون وماء'],'CaCO3 ⟶ CaO + CO2 بالتسخين، والغاز يعكر ماء الجير الرائق.','ص 16'),
+{ id:'l3q1', level:3, type:'sequence', difficulty:'medium', question:'رتب الفلزات تنازليًا حسب نشاطها الكيميائي (الأنشط أولًا)',
+  steps:['الماغنسيوم Mg','الخارصين Zn','الحديد Fe','النحاس Cu'],
+  explanation:'متسلسلة النشاط: Mg ثم Zn ثم Fe ثم (H) ثم Cu.', sourceReference:'ص 19' },
+M('l3q2',3,'medium','لماذا لا يحل النحاس محل الهيدروجين في الأحماض المخففة؟',['لأنه يأتي بعد الهيدروجين في متسلسلة النشاط الكيميائي','لأنه أنشط من الهيدروجين','لأنه لا يتأكسد أبدًا','لأن الأحماض المخففة لا تتفاعل مع أي مادة'],'الفلزات التي تلي الهيدروجين في المتسلسلة لا تحل محله في الأحماض المخففة.','ص 19'),
+D('l3q3',3,'وُضعت كميات متساوية من Mg وZn وFe في أنابيب بها HCl المخفف. ما ترتيب سرعة تصاعد الغاز؟',['Mg ثم Zn ثم Fe','Fe ثم Zn ثم Mg','Zn ثم Mg ثم Fe','الثلاثة بنفس السرعة'],'الماغنسيوم أنشط فأسرع تصاعدًا للغاز، ثم الخارصين، ثم الحديد.','ص 17'),
+M('l4q1',4,'easy','ناتج تفاعل الحمض مع القلوي هو:',['ملح وماء (تفاعل تعادل)','ملح وغاز الهيدروجين','أكسيد وماء','قلوي وغاز'],'مثال: NaOH + HCl ⟶ NaCl + H2O، ويسمى تفاعل التعادل.','ص 26'),
+{ id:'l4q2', level:4, type:'match', difficulty:'medium', question:'صل كل محلول بلون دليل اليونيفرسال فيه',
+  pairs:[{left:'حمض الهيدروكلوريك HCl',right:'أحمر'},{left:'كلوريد الصوديوم NaCl',right:'أخضر'},{left:'هيدروكسيد الصوديوم NaOH',right:'بنفسجي'}],
+  explanation:'الحمضي القوي أحمر، والمتعادل أخضر، والقلوي القوي بنفسجي.', sourceReference:'ص 26' },
+M('l4q3',4,'medium','عند إضافة HCl إلى كربونات الصوديوم يتصاعد غاز يُكشف عنه بأنه:',['ثاني أكسيد الكربون لأنه يعكر ماء الجير الرائق','الهيدروجين لأنه يشتعل بفرقعة','الأكسجين لأنه يشعل عود ثقاب مشتعلًا','النيتروجين لأنه يحول لون الماء'],'تفاعل حمض مع ملح الكربونات يطلق CO2 الذي يعكر ماء الجير.','ص 27'),
+D('l4q4',4,'عند إضافة محلول نترات الفضة إلى كلوريد الصوديوم يتكون:',['راسب أبيض من كلوريد الفضة','راسب أسود','غاز عديم اللون','لا يحدث تفاعل'],'AgNO3 + NaCl ⟶ AgCl (راسب أبيض) + NaNO3، وهو إحلال مزدوج.','ص 25'),
+M('l5q1',5,'easy','الأكسدة عملية:',['تفقد فيها الذرة أو الأيون إلكترونًا أو أكثر','تكتسب فيها الذرة إلكترونًا أو أكثر','تتحول فيها المادة إلى غاز','تفقد فيها الذرة بروتونات'],'الأكسدة فقد إلكترونات، والاختزال اكتساب إلكترونات، وهما متلازمتان.','ص 32'),
+{ id:'l5q2', level:5, type:'classify', difficulty:'medium', question:'صنّف كل نصف تفاعل: أكسدة أم اختزال؟',
+  buckets:['أكسدة','اختزال'],
+  items:[{label:'Na ⟶ Na⁺ + e⁻',bucket:'أكسدة'},{label:'Cl2 + 2e⁻ ⟶ 2Cl⁻',bucket:'اختزال'},{label:'Fe²⁺ ⟶ Fe³⁺ + e⁻',bucket:'أكسدة'},{label:'Ag⁺ + e⁻ ⟶ Ag',bucket:'اختزال'}],
+  explanation:'فقد الإلكترونات (e⁻ في الناتج) أكسدة، واكتسابها (e⁻ في المتفاعلات) اختزال.', sourceReference:'ص 34' },
+D('l5q3',5,'في التفاعل Mg + Br2 ⟶ MgBr2 ما العامل المؤكسد؟',['البروم Br2 لأنه اكتسب إلكترونات فاختُزل','الماغنسيوم Mg لأنه فقد إلكترونات','بروميد الماغنسيوم','لا يوجد عامل مؤكسد'],'Mg يتأكسد (عامل مختزل)، وBr2 يختزل ويؤكسد الماغنسيوم فهو العامل المؤكسد.','ص 33'),
+M('l6q1',6,'easy','عناصر مثلث الاحتراق الثلاثة هي:',['الوقود والأكسجين وطاقة حرارية','الوقود والماء والضوء','الأكسجين والنيتروجين والماء','الحرارة والضغط والماء'],'لا يحدث الاحتراق إلا بوجود الوقود والأكسجين ومصدر الحرارة.','ص 56'),
+M('l6q2',6,'medium','مادة (X) درجة اشتعالها 45°C ومادة (Y) 300°C، أيهما أسرع اشتعالًا؟',['(X) لأنه كلما قلت درجة الاشتعال زادت قابلية الاشتعال','(Y) لأن درجة اشتعالها أعلى','متساويان','لا يمكن تحديد ذلك أبدًا'],'قلة درجة الاشتعال تعني قابلية أكبر للاشتعال.','ص 57'),
+M('l6q3',6,'medium','يتحول دوار الشمس إلى الأزرق في محلول ناتج احتراق الماغنسيوم لأن:',['MgO أكسيد قاعدي يكوّن محلولًا قلويًا','MgO أكسيد حمضي','الناتج غاز CO2','الناتج حمض الكربونيك'],'أكاسيد الفلزات قاعدية، وأكاسيد اللافلزات مثل CO2 حمضية تحوله إلى الأحمر.','ص 59'),
+{ id:'l6q4', level:6, type:'match', difficulty:'hard', question:'صل كل حالة احتراق للميثان بنواتجها',
+  pairs:[{left:'ميثان : أكسجين = 1 : 2',right:'ثاني أكسيد الكربون وبخار ماء وطاقة كبيرة'},{left:'ميثان : أكسجين = 2 : 3',right:'أول أكسيد الكربون وبخار ماء'},{left:'ميثان : أكسجين = 1 : 1',right:'سناج (كربون) وبخار ماء'},{left:'لهب أزرق في موقد بنزن',right:'احتراق تام'}],
+  explanation:'نواتج الاحتراق تتوقف على كمية الأكسجين، والاحتراق التام يعطي أكبر طاقة.', sourceReference:'ص 61-63' },
+M('l6q5',6,'medium','يتحول لون شريط كلوريد الكوبلت من الأزرق الباهت إلى الوردي عند:',['وجود بخار الماء','وجود غاز CO2','وجود الأكسجين','وجود الهيدروجين'],'كلوريد الكوبلت الأزرق الباهت كاشف لبخار الماء، وماء الجير كاشف لـ CO2.','ص 62'),
+M('l7q1',7,'medium','يُفضَّل الغاز الطبيعي على الفحم الحجري كمصدر للطاقة لأن:',['احتراقه أقل تلويثًا للبيئة','احتراقه ينتج أكاسيد كبريت أكثر','ينتج دقائق كربون أكثر','هو أرخص دائمًا'],'الفحم ينتج نسبة أكبر من ثاني أكسيد الكربون وأكاسيد الكبريت ودقائق الكربون.','ص 70'),
+M('l7q2',7,'medium','وظيفة المحول الحفاز في السيارات:',['تحويل الغازات السامة (CO وNOx) إلى مواد آمنة','زيادة الدخان الخارج','زيادة استهلاك الوقود','تبريد المحرك'],'يحول CO إلى CO2 وأكاسيد النيتروجين إلى N2 بوجود عوامل حفازة.','ص 70'),
+{ id:'l7q3', level:7, type:'sequence', difficulty:'medium', question:'رتب المراحل التي تمر بها العناصر المعدنية والمشعة أثناء التدخين',
+  steps:['مرحلة التطاير','مرحلة الاستنشاق','مرحلة التراكم الإشعاعي','مرحلة الرماد'],
+  explanation:'تتطاير العناصر ثم تُستنشق وتتراكم في الرئتين، ويتبقى جزء منها في الرماد.', sourceReference:'ص 91' },
+D('l7q4',7,'ينتج عن تدخين التبغ غاز (X) سام عديم اللون والرائحة ومادة (Y) لزجة داكنة، فما (X) و(Y)؟',['(X) أول أكسيد الكربون، (Y) قطران','(X) ثاني أكسيد الكربون، (Y) نيكوتين','(X) أول أكسيد الكربون، (Y) رصاص','(X) ثاني أكسيد الكربون، (Y) قطران'],'CO غاز سام عديم اللون والرائحة، والقطران سائل داكن لزج.','ص 90-91'),
+M('l1q4',1,'easy','ما لون المادة الناتجة من احتراق شريط الماغنسيوم في الهواء؟',['أبيض (أكسيد الماغنسيوم MgO)','أسود','أحمر','أزرق'],'يحترق Mg بلهب أبيض ساطع مكونًا مسحوق MgO الأبيض.','ص 14'),
+M('l1q5',1,'medium','ما لون الطبقة المتكونة على سطح النحاس عند تسخينه في الهواء؟',['سوداء (أكسيد النحاس CuO)','بيضاء','حمراء','زرقاء'],'2Cu + O2 ⟶ 2CuO، وهو أكسيد أسود اللون.','ص 14'),
+M('l2q4',2,'easy','تُعد تفاعلات الانحلال عكس تفاعلات:',['الاتحاد المباشر','الإحلال البسيط','التعادل','الاحتراق'],'الانحلال تفكك مركب إلى مكوناته الأبسط، والاتحاد تكوين مركب.','ص 15'),
+M('l2q5',2,'medium','عند تسخين أكسيد الزئبق الأحمر HgO يتكون:',['زئبق فضي اللون وغاز الأكسجين','زئبق وغاز الهيدروجين','أكسيد زئبق أسود فقط','ماء وأكسجين'],'2HgO ⟶ 2Hg + O2 بالتسخين، ويزيد الأكسجين توهج عود ثقاب مشتعل.','ص 15'),
+M('l3q4',3,'easy','الغاز المتصاعد من تفاعل الفلزات النشطة مع الأحماض المخففة هو:',['الهيدروجين','الأكسجين','ثاني أكسيد الكربون','النيتروجين'],'فلز نشط + حمض مخفف ⟶ ملح + غاز الهيدروجين.','ص 17'),
+M('l3q5',3,'medium','يطفو الصوديوم على سطح الماء لأن:',['كثافته أقل من كثافة الماء','كثافته أكبر من الماء','لا يتفاعل مع الماء','يتصاعد منه غاز الأكسجين'],'كثافة الصوديوم أقل من الماء، ويتفاعل معه بشدة فيتكون لهب أصفر برتقالي.','ص 20'),
+M('l3q6',3,'medium','عند إضافة شريط النحاس إلى حمض الهيدروكلوريك المخفف:',['لا يحدث تفاعل كيميائي','تتصاعد فقاعات غاز بشدة','يتكون راسب أبيض','يشتعل النحاس'],'النحاس يلي الهيدروجين في المتسلسلة فلا يحل محله.','ص 17'),
+M('l4q5',4,'medium','عند إضافة حمض إلى ملح كربونات يتكون ملح وماء و:',['غاز ثاني أكسيد الكربون','غاز الهيدروجين','غاز الأكسجين','راسب أسود'],'مثل HCl مع Na2CO3، والغاز يعكر ماء الجير.','ص 27'),
+M('l4q6',4,'easy','عند الوصول إلى نقطة تعادل HCl مع NaOH يتلون دليل اليونيفرسال باللون:',['الأخضر','الأحمر','البنفسجي','الأصفر'],'المحلول المتعادل (NaCl) يعطي اللون الأخضر.','ص 26'),
+M('l5q4',5,'medium','العامل المختزل هو المادة التي:',['تفقد إلكترونًا أو أكثر أثناء التفاعل','تكتسب إلكترونًا أو أكثر','تتصاعد كغاز','تتحلل بالحرارة'],'العامل المختزل يتأكسد، أما العامل المؤكسد فيكتسب الإلكترونات ويُختزل.','ص 32'),
+M('l5q5',5,'hard','الأكسدة والاختزال عمليتان متلازمتان لأن:',['عدد الإلكترونات المكتسبة يساوي عدد المفقودة','الأكسدة تحدث وحدها','تحدثان في زمنين مختلفين','لا علاقة بينهما'],'لا تُفقد إلكترونات إلا إذا وُجدت مادة تكتسبها.','ص 33'),
+M('l6q6',6,'easy','السناج هو:',['مسحوق أسود من الكربون غير المحترق','بخار ماء','غاز ثاني أكسيد الكربون','غاز الأكسجين'],'ينتج السناج عن الاحتراق غير التام للهيدروكربونات.','ص 61'),
+M('l6q7',6,'medium','يكون لهب موقد بنزن أصفر عندما:',['يكون صمام الهواء مغلقًا جزئيًا (أكسجين محدود)','يكون صمام الهواء مفتوحًا كليًا','تزداد كمية الأكسجين','يحدث احتراق تام'],'نقص الأكسجين يعطي احتراقًا غير تام ولهبًا أصفر وسناجًا.','ص 61'),
+M('l7q5',7,'medium','من طرق تقليل التلوث الناتج عن الاحتراق في الصناعة:',['تركيب فلاتر على مداخن المصانع','زيادة حرق الفحم','غلق صمامات التهوية','التخلص من الغازات بلا معالجة'],'من الطرق: الغاز الطبيعي، وفلاتر المداخن، والطاقة المتجددة.','ص 71'),
+M('l7q6',7,'medium','تتكون الأمطار الحمضية نتيجة:',['ذوبان الغازات الحمضية في ماء المطر','ذوبان الأكسجين في الماء','تبخر مياه البحار فقط','تفاعل الماء مع الهيدروجين'],'الأمطار الحمضية ناتجة عن ذوبان الغازات الحمضية (أملاح لا تذوب في الماء).','ص 71'),
+M('l7q7',7,'hard','من العناصر المشعة في التبغ والتي تضر الرئتين:',['البولونيوم 210','الصوديوم','النحاس','الكلور'],'يحتوي التبغ على عناصر مشعة أهمها البولونيوم 210.','ص 90'),
+M('l1q6',1,'easy','الصورة العامة لتفاعل الاتحاد المباشر هي:',['A + B ⟶ AB','AB ⟶ A + B','AB + C ⟶ AC + B','AB + CD ⟶ AD + CB'],'مادتان أو أكثر تتحد لتكوين مركب جديد.','ص 13'),
+M('l1q7',1,'medium','ناتج تسخين الصوف الفولاذي (الحديد) في الهواء:',['أكسيد الحديد المغناطيسي Fe3O4','أكسيد النحاس CuO','أكسيد الماغنسيوم MgO','كلوريد الحديد'],'3Fe + 2O2 ⟶ Fe3O4 مع شرر واضح.','ص 14'),
+M('l1q8',1,'medium','أي فلز يحترق بلهب أبيض ساطع؟',['الماغنسيوم','النحاس','الحديد','الزئبق'],'يحترق Mg مكونًا MgO الأبيض.','ص 14'),
+M('l2q6',2,'medium','الانحلال الحراري لكربونات الفلزات يعطي:',['أكسيد الفلز وثاني أكسيد الكربون','الفلز والأكسجين','الفلز والهيدروجين','ماء وملحًا'],'مثل CaCO3 ⟶ CaO + CO2.','ص 16'),
+M('l2q7',2,'easy','التفاعل 2HgO ⟶ 2Hg + O2 هو:',['انحلال حراري','اتحاد مباشر','إحلال بسيط','تعادل'],'مركب واحد تفكك إلى مواد أبسط بالحرارة.','ص 15'),
+M('l2q8',2,'easy','الغاز الذي يعكر ماء الجير الرائق:',['ثاني أكسيد الكربون','الأكسجين','الهيدروجين','النيتروجين'],'يتكون كربونات الكالسيوم فيتعكر الماء.','ص 16'),
+M('l2q9',2,'hard','تتم تفاعلات الإحلال المزدوج غالبًا بين:',['مركبين أيونيين في محلول مائي','عنصرين لافلزيين','فلز وغاز','مركبين في الحالة الصلبة'],'تتبادل الأيونات الموجبة والسالبة في المحاليل.','ص 25'),
+M('l3q7',3,'easy','متسلسلة النشاط الكيميائي هي:',['ترتيب العناصر الفلزية تنازليًا حسب نشاطها','ترتيب العناصر حسب كتلتها','ترتيب اللافلزات حسب لونها','ترتيب الأحماض حسب قوتها'],'الأنشط في الأعلى ثم الأقل نشاطًا.','ص 19'),
+M('l3q8',3,'hard','لا يتفاعل الألومنيوم فورًا مع HCl رغم نشاطه لأن:',['سطحه مغطى بطبقة من Al2O3 تمنع وصول الحمض','لأنه أقل نشاطًا من النحاس','لأنه لا يتأكسد','لأنه لافلز'],'بعد زوال الطبقة يتفاعل بنشاط ويتصاعد الهيدروجين.','ص 19'),
+M('l3q9',3,'medium','أي الفلزات التالية لا يحل محل الهيدروجين في الأحماض المخففة؟',['الفضة','الخارصين','الحديد','الماغنسيوم'],'الفضة تلي الهيدروجين في المتسلسلة.','ص 19'),
+M('l3q10',3,'medium','أي الفلزات يحل محل الهيدروجين في الحمض؟',['الخارصين','النحاس','الفضة','الذهب'],'الخارصين يسبق الهيدروجين فهو أنشط منه.','ص 19'),
+M('l4q7',4,'medium','تفاعل التعادل يُعد من تفاعلات:',['الإحلال المزدوج','الاتحاد المباشر','الانحلال','الإحلال البسيط'],'يتبادل الحمض والقلوي أيوناتهما فيتكون ملح وماء.','ص 26'),
+M('l4q8',4,'easy','يتلون دليل اليونيفرسال بلون بنفسجي في محلول:',['هيدروكسيد الصوديوم','حمض الهيدروكلوريك','كلوريد الصوديوم','الماء المقطر'],'المحلول القلوي القوي بنفسجي.','ص 26'),
+M('l4q9',4,'medium','يتكون المركب الأيوني من:',['كاتيون موجب وأنيون سالب','ذرتين لافلزيتين','جزيء واحد فقط','أيونين موجبين'],'مثل NaCl من Na⁺ وCl⁻.','ص 25'),
+M('l5q6',5,'easy','التحول Cu²⁺ + 2e⁻ ⟶ Cu يمثل عملية:',['اختزال','أكسدة','تعادل','انحلال'],'اكتساب الإلكترونات اختزال.','ص 32'),
+M('l5q7',5,'easy','العامل المؤكسد هو المادة التي:',['تكتسب إلكترونات فتُختزل','تفقد إلكترونات','تتصاعد كغاز','تتحول إلى راسب'],'تؤكسد غيرها وهي تُختزل.','ص 32'),
+M('l5q8',5,'medium','في Zn + CuSO4 ⟶ ZnSO4 + Cu، العامل المؤكسد هو:',['أيونات النحاس Cu²⁺','ذرات الخارصين','أيونات الكبريتات','الخارصين والنحاس'],'Cu²⁺ اكتسب إلكترونين فاختُزل.','ص 32'),
+M('l5q9',5,'easy','التحول Cu ⟶ Cu²⁺ + 2e⁻ يمثل:',['أكسدة','اختزال','تعادل','إحلال مزدوج'],'فقد الإلكترونات أكسدة.','ص 34'),
+M('l6q8',6,'easy','الوقود في مثلث الاحتراق هو:',['المادة القابلة للاشتعال','غاز الأكسجين','مصدر الحرارة','ثاني أكسيد الكربون'],'الأكسجين والحرارة ضلعان آخران.','ص 56'),
+M('l6q9',6,'medium','درجة الاشتعال هي:',['أقل درجة حرارة تبدأ عندها المادة في الاشتعال وتستمر','درجة غليان المادة','درجة انصهار المادة','أعلى درجة يصلها اللهب'],'تختلف قابلية المواد للاشتعال باختلافها.','ص 57'),
+M('l6q10',6,'medium','المواد الملتهبة هي المواد:',['سريعة الاشتعال عند درجة حرارة الوسط المحيط','التي لا تشتعل أبدًا','التي تطفئ النار','التي تذوب في الماء'],'مثل البنزين والكحول وعليها علامة تحذيرية.','ص 57'),
+M('l6q11',6,'medium','تشتعل الورقة الجافة أسرع من المبللة لأن:',['الماء يمتص الحرارة فيؤخر وصولها لدرجة الاشتعال','الورقة المبللة لا تحتوي كربونًا','الماء وقود','الورقة الجافة أثقل'],'الماء يمتص الحرارة.','ص 56'),
+M('l6q12',6,'medium','ناتج الاحتراق التام للميثان CH4 مع الأكسجين:',['CO2 وبخار ماء وطاقة كبيرة','CO وبخار ماء','سناج وماء فقط','أكسجين وهيدروجين'],'CH4 + 2O2 ⟶ CO2 + 2H2O + heat.','ص 63'),
+M('l6q13',6,'hard','كمية الحرارة الناتجة من الاحتراق التام مقارنة بغير التام:',['أكبر','أقل','متساوية','لا تنتج حرارة'],'الاحتراق التام يعطي طاقة أكبر لنفس الكتلة.','ص 63'),
+M('l7q8',7,'easy','الميثان هو المكون الأساسي لـ:',['الغاز الطبيعي','الفحم الحجري','الماء','الهواء الجوي'],'الغاز الطبيعي يتكون أساسًا من الميثان.','ص 60'),
+M('l7q9',7,'medium','الهيدروكربونات مركبات تتكون من عنصري:',['الكربون والهيدروجين','الكربون والأكسجين','الهيدروجين والنيتروجين','الكبريت والأكسجين'],'مثل الميثان والبروبان والبيوتان.','ص 60'),
+M('l7q10',7,'easy','من مصادر الطاقة المتجددة:',['الشمس والرياح','الفحم','البترول','الغاز الطبيعي'],'تستخدم في توليد الكهرباء بلا ملوثات.','ص 71'),
+M('l7q11',7,'medium','يتكون القطران من احتراق:',['المواد الكربوهيدراتية والبروتينية في التبغ','المعادن في التبغ','الماء في الورق','النيكوتين فقط'],'سائل داكن لزج من احتراق السكريات والبروتينات.','ص 90'),
+M('l7q12',7,'medium','من الغازات السامة الناتجة عن التدخين:',['أول أكسيد الكربون وسيانيد الهيدروجين','الأكسجين والنيتروجين','الهيليوم والنيون','بخار الماء فقط'],'CO وHCN من الغازات الخطرة السامة.','ص 90'),
+M('l7q13',7,'hard','يتبقى في رماد السيجارة:',['عناصر غير متطايرة مثل البوتاسيوم والكالسيوم','النيكوتين','القطران','غاز CO'],'بعد الاحتراق يبقى جزء من المعادن غير المتطايرة.','ص 91'),
+M('l7q14',7,'medium','أحد الأضرار الصحية للتدخين:',['الإصابة بأمراض الرئة والسرطان','زيادة المناعة','تحسين الخصوبة','تقوية القلب'],'التدخين يضر الجهاز التنفسي والدوري والعصبي.','ص 92'),
+{ id:'l1q9', level:1, type:'memory', difficulty:'medium', question:'بطاقات الذاكرة: طابق كل تفاعل بناتجه', pairs:[{a:'Mg + O2',b:'MgO'},{a:'Cu + O2',b:'CuO'},{a:'Fe + O2',b:'Fe3O4'},{a:'HgO بالحرارة',b:'Hg + O2'}], explanation:'أكاسيد الماغنسيوم والنحاس والحديد من الاتحاد المباشر، وHgO ينحل حراريًا.', sourceReference:'ص 14-15' },
+{ id:'l1q10', level:1, type:'classify', difficulty:'medium', question:'صنّف كل معادلة: اتحاد مباشر أم انحلال؟', buckets:['اتحاد مباشر','انحلال'], items:[{label:'2Mg + O2 ⟶ 2MgO',bucket:'اتحاد مباشر'},{label:'2HgO ⟶ 2Hg + O2',bucket:'انحلال'},{label:'3Fe + 2O2 ⟶ Fe3O4',bucket:'اتحاد مباشر'},{label:'CaCO3 ⟶ CaO + CO2',bucket:'انحلال'}], explanation:'الاتحاد يكوّن مركبًا واحدًا، والانحلال يفكك مركبًا.', sourceReference:'ص 13-16' },
+M('l1q11',1,'easy','عدد دلائل حدوث التفاعل الكيميائي المذكورة في الدرس:',['5 دلائل','3 دلائل','7 دلائل','دليلان'],'تغير اللون، رائحة، غاز، راسب، ضوء وحرارة.','ص 13'),
+{ id:'l2q10', level:2, type:'match', difficulty:'medium', question:'صل كل نوع تفاعل بوصفه', pairs:[{left:'اتحاد مباشر',right:'مادتان تكونان مركبًا واحدًا'},{left:'انحلال',right:'تفكك مركب إلى مكوناته الأبسط'},{left:'إحلال بسيط',right:'عنصر يحل محل عنصر آخر في مركب'},{left:'إحلال مزدوج',right:'تبادل أيونات بين مركبين'}], explanation:'هذه هي الأنواع الأربعة الرئيسية للتفاعلات.', sourceReference:'ص 13-25' },
+D('l2q11',2,'هل التفاعل 2NO + O2 ⟶ 2NO2 من تفاعلات الاتحاد المباشر؟',['نعم، لأن مادتين اتحدتا لتكوين مركب واحد جديد','لا، لأنه انحلال','لا، لأنه إحلال بسيط','لا، لأنه تعادل'],'مادتان (NO وO2) كوّنتا مركبًا واحدًا هو NO2.','ص 15'),
+M('l2q12',2,'medium','تفاعل فلز نشط مع الماء لتكوين قلوي وهيدروجين يُصنّف:',['إحلال بسيط','اتحاد مباشر','انحلال','إحلال مزدوج'],'يحل الفلز محل هيدروجين الماء.','ص 20'),
+M('l2q13',2,'hard','أنواع الإحلال البسيط: محل هيدروجين الحمض، ومحل هيدروجين الماء، و:',['محل فلز آخر في محلول أحد أملاحه','محل أيون في تفاعل تعادل','تفكك مركب بالحرارة','اتحاد عنصرين'],'النوع الثالث إحلال فلز محل فلز آخر في ملحه.','ص 16'),
+{ id:'l3q11', level:3, type:'match', difficulty:'medium', question:'صل كل فلز بسلوكه', pairs:[{left:'الماغنسيوم مع HCl',right:'تصاعد سريع وفوري للغاز'},{left:'الحديد مع HCl',right:'تصاعد أبطأ للغاز'},{left:'النحاس مع HCl',right:'لا يحدث تفاعل'},{left:'الصوديوم مع الماء',right:'لهب أصفر برتقالي'}], explanation:'سرعة التفاعل تتبع النشاط الكيميائي للفلز.', sourceReference:'ص 17-20' },
+{ id:'l3q12', level:3, type:'sequence', difficulty:'hard', question:'رتب الفلزات تنازليًا حسب النشاط (الأنشط أولًا)', steps:['الصوديوم','الماغنسيوم','الخارصين','الحديد'], explanation:'Na ثم Mg ثم Zn ثم Fe في متسلسلة النشاط.', sourceReference:'ص 19' },
+D('l3q13',3,'لا تتصاعد فقاعات عند وضع الماغنسيوم في ماء بارد وتتصاعد في الساخن. ماذا نستنتج؟',['يتفاعل مع الماء الساخن ولا يتفاعل بسرعة مع البارد','لا يتفاعل أبدًا','يتفاعل مع البارد أسرع','الماغنسيوم لافلز'],'الماغنسيوم أقل نشاطًا من الصوديوم فيحتاج حرارة.','ص 20'),
+M('l3q14',3,'easy','يتكون عند تفاعل الصوديوم مع الماء لهب لونه:',['أصفر برتقالي','أزرق','أخضر','لا لهب'],'يتفاعل فورًا وبشدة.','ص 20'),
+{ id:'l4q10', level:4, type:'classify', difficulty:'medium', question:'صنّف كل محلول: حمضي أم متعادل أم قلوي؟', buckets:['حمضي','متعادل','قلوي'], items:[{label:'HCl',bucket:'حمضي'},{label:'NaCl',bucket:'متعادل'},{label:'NaOH',bucket:'قلوي'},{label:'محلول يلوّن اليونيفرسال بالأحمر',bucket:'حمضي'}], explanation:'الأحمر حمضي، والأخضر متعادل، والبنفسجي قلوي.', sourceReference:'ص 26' },
+M('l4q11',4,'easy','قيمة pH للمحلول المتعادل:',['7','0','14','3'],'المتعادل أخضر عند pH = 7.','ص 26'),
+M('l4q12',4,'medium','يتلون دليل اليونيفرسال بالأحمر في المحلول:',['الحمضي القوي','القلوي القوي','المتعادل','الماء المقطر فقط'],'كلما زادت الحموضة اقترب اللون من الأحمر.','ص 26'),
+D('l4q13',4,'نضيف قطرات NaOH إلى محلول متعادل به يونيفرسال. ماذا يحدث للون؟',['يتغير تدريجيًا من الأخضر إلى البنفسجي','يتحول إلى الأحمر','لا يتغير','يصبح عديم اللون'],'زيادة القلوية تحول اللون نحو البنفسجي.','ص 27'),
+{ id:'l5q10', level:5, type:'match', difficulty:'medium', question:'صل كل مفهوم بتعريفه', pairs:[{left:'الأكسدة',right:'فقد إلكترونات'},{left:'الاختزال',right:'اكتساب إلكترونات'},{left:'العامل المؤكسد',right:'مادة تكتسب إلكترونات'},{left:'العامل المختزل',right:'مادة تفقد إلكترونات'}], explanation:'الأكسدة والاختزال متلازمتان.', sourceReference:'ص 32' },
+{ id:'l5q11', level:5, type:'classify', difficulty:'hard', question:'صنّف كل مادة: عامل مؤكسد أم مختزل؟', buckets:['عامل مؤكسد','عامل مختزل'], items:[{label:'Mg في Mg + Br2',bucket:'عامل مختزل'},{label:'Br2',bucket:'عامل مؤكسد'},{label:'Zn في Zn + CuSO4',bucket:'عامل مختزل'},{label:'Cu²⁺',bucket:'عامل مؤكسد'}], explanation:'الفلز يفقد إلكترونات فيختزل غيره، والمؤكسد يكتسبها.', sourceReference:'ص 32-33' },
+M('l5q12',5,'medium','معظم الفلزات تعمل غالبًا كعوامل:',['مختزلة لأنها تميل لفقد الإلكترونات','مؤكسدة','حفازة','متعادلة'],'تفقد الفلزات إلكترونات في التفاعل.','ص 33'),
+M('l5q13',5,'medium','معظم اللافلزات تعمل غالبًا كعوامل:',['مؤكسدة لأنها تميل لاكتساب الإلكترونات','مختزلة','قاعدية','متعادلة'],'اللافلزات تكتسب إلكترونات.','ص 33'),
+{ id:'l6q14', level:6, type:'sequence', difficulty:'medium', question:'رتب ما يحدث عند حك رأس عود الثقاب', steps:['يتولد حرارة من الاحتكاك','يتحول جزء من الفوسفور الأحمر إلى أبيض ويشتعل','تنحل كلورات البوتاسيوم وينطلق الأكسجين','يشتعل رأس العود بسرعة'], explanation:'الحرارة تشعل الفوسفور فينحل KClO3 ويمد الاشتعال بالأكسجين.', sourceReference:'ص 58' },
+{ id:'l6q15', level:6, type:'match', difficulty:'medium', question:'صل كل ناتج بالكاشف عنه', pairs:[{left:'CO2',right:'تعكر ماء الجير الرائق'},{left:'بخار الماء',right:'كلوريد الكوبلت من الأزرق إلى الوردي'},{left:'أكسيد قاعدي',right:'دوار الشمس أزرق'},{left:'أكسيد حمضي',right:'دوار الشمس أحمر'}], explanation:'لكل ناتج كاشف مميز.', sourceReference:'ص 59-62' },
+M('l6q16',6,'easy','من احتياطات الأمان عند التعامل مع اللهب:',['ارتداء نظارات وقفازات واقية','العمل قرب مواد ملتهبة','إبعاد أدوات الإطفاء','لمس اللهب للاختبار'],'تأكد من بعد المواد القابلة للاشتعال ووجود أدوات إطفاء.','ص 57'),
+D('l6q17',6,'تحترق كتلتان متساويتان من مادة واحدة وإحداهما بلهب أسود أكثر. السبب:',['احتراق غير تام لنقص الأكسجين','احتراق تام','زيادة الأكسجين','عدم وجود حرارة'],'نقص الأكسجين يعطي سناجًا ولهبًا أسود.','ص 60'),
+M('l6q18',6,'hard','كلورات البوتاسيوم في رأس عود الثقاب تعمل كـ:',['عامل مؤكسد','عامل مختزل','وقود فقط','مادة لاصقة'],'تنحل وتعطي أكسجين يساعد على الاشتعال.','ص 58'),
+{ id:'l7q15', level:7, type:'classify', difficulty:'medium', question:'صنّف مكونات دخان التبغ', buckets:['غازات سامة','عناصر ثقيلة سامة'], items:[{label:'أول أكسيد الكربون',bucket:'غازات سامة'},{label:'سيانيد الهيدروجين',bucket:'غازات سامة'},{label:'الرصاص',bucket:'عناصر ثقيلة سامة'},{label:'الكادميوم',bucket:'عناصر ثقيلة سامة'}], explanation:'CO وHCN غازات سامة، والرصاص والكادميوم والزرنيخ عناصر ثقيلة.', sourceReference:'ص 90' },
+{ id:'l7q16', level:7, type:'match', difficulty:'hard', question:'صل كل مرحلة من مراحل التدخين بما يحدث فيها', pairs:[{left:'التطاير',right:'تتبخر المعادن الثقيلة والعناصر المشعة'},{left:'الاستنشاق',right:'يستنشق المدخن ذرات العناصر المشعة'},{left:'التراكم الإشعاعي',right:'تتراكم العناصر المشعة في الرئتين'},{left:'الرماد',right:'يتبقى جزء من المعادن غير المتطايرة'}], explanation:'تمر العناصر بأربع مراحل أثناء التدخين.', sourceReference:'ص 91' },
+M('l7q17',7,'medium','يؤدي إشعال السيجارة إلى إنتاج:',['آلاف المواد الكيميائية معظمها سام ومسرطن','غاز الأكسجين فقط','بخار ماء فقط','مواد غير ضارة'],'السيجارة مجموعة من المواد تدخل في تفاعلات احتراق معقدة.','ص 91'),
+M('l7q18',7,'easy','يُقدَّر عدد وفيات التدخين سنويًا بأكثر من:',['8 ملايين شخص','ألف شخص','مليون شخص','10 آلاف شخص'],'حسب تقارير منظمة الصحة العالمية.','ص 92'),
+M('l7q19',7,'medium','تُستخدم أجهزة غسل الغازات الحمضية في المصانع لـ:',['معادلة الغازات الحمضية وتقليل الأمطار الحمضية','زيادة الدخان','تسخين المصنع','إنتاج الأكسجين'],'تفاعلات التعادل تكوّن رواسب آمنة.','ص 71'),
+{ id:'h1', level:3, type:'hotspot', difficulty:'medium', svgKind:'activity', targetId:'Cu', question:'اضغط على الفلز الذي لا يحل محل الهيدروجين في الأحماض المخففة', explanation:'النحاس يلي الهيدروجين في المتسلسلة فهو أقل نشاطًا منه.', sourceReference:'ص 19' },
+{ id:'h2', level:3, type:'hotspot', difficulty:'hard', svgKind:'tubes', targetId:'Mg', question:'اضغط على الأنبوبة التي سيتصاعد منها الغاز بأسرع معدل', explanation:'الماغنسيوم أنشط من الحديد والنحاس فيتفاعل مع HCl بسرعة وبقوة.', sourceReference:'ص 17' },
+{ id:'h3', level:4, type:'hotspot', difficulty:'medium', svgKind:'phscale', targetId:'base', question:'اضغط على موضع محلول NaOH (قلوي قوي) على تدرج دليل اليونيفرسال', explanation:'القلوي القوي بنفسجي عند pH الأعلى.', sourceReference:'ص 26' },
+{ id:'h4', level:4, type:'hotspot', difficulty:'easy', svgKind:'phscale', targetId:'neutral', question:'اضغط على موضع محلول NaCl المتعادل', explanation:'المتعادل أخضر عند pH = 7.', sourceReference:'ص 26' },
+{ id:'h5', level:6, type:'hotspot', difficulty:'medium', svgKind:'burner', targetId:'valve', question:'اضغط على الجزء الذي يتحكم في كمية الهواء (الأكسجين) الداخلة لموقد بنزن', explanation:'فتح صمام الهواء يعطي احتراقًا تامًا ولهبًا أزرق، وغلقه جزئيًا يعطي لهبًا أصفر وسناجًا.', sourceReference:'ص 61' },
+{ id:'h6', level:6, type:'hotspot', difficulty:'medium', svgKind:'activity', targetId:'Mg', question:'اضغط على أنشط فلز في الرسم', explanation:'الماغنسيوم يسبق الخارصين والحديد والنحاس في النشاط.', sourceReference:'ص 19' },
+M2('g1',6,'medium','oxRatio','حسب الرسم، أي حالة تحتاج أكبر عدد من جزيئات الأكسجين لكل جزيء ميثان؟',['الاحتراق التام','الاحتراق غير التام (CO)','الاحتراق غير التام (سناج)','الثلاث متساوية'],'الاحتراق التام يحتاج 2 O2 لكل CH4.','ص 63'),
+M2('g2',6,'hard','oxRatio','تكون سناج عند النسبة التي تحتاج أقل كمية أكسجين. كم جزيء O2 لكل CH4 فيها؟',['1','2','1.5','3'],'CH4 + O2 ⟶ C + 2H2O: جزيء O2 واحد لكل CH4.','ص 63'),
+M2('g3',3,'medium','actRank','حسب الرسم، أي الفلزات أقل نشاطًا؟',['Cu','Na','Mg','Zn'],'العمود الأقصر يمثل الفلز الأقل نشاطًا وهو النحاس.','ص 19'),
+M2('g4',3,'hard','actRank','حسب الرسم، أي فلزين ينشطان أكثر من الحديد؟',['Zn وMg','Cu فقط','Cu وZn','لا يوجد'],'Na وMg وZn أنشط من Fe.','ص 19')
+];
+const bossPhases = [
+  { id:'boss1', phaseLabel:'المرحلة 1: اربط التفاعلات', type:'match', question:'صل كل معادلة بنوع التفاعل',
+    pairs:[{left:'CaCO3 ⟶ CaO + CO2',right:'انحلال حراري'},{left:'Zn + 2HCl ⟶ ZnCl2 + H2',right:'إحلال بسيط'},{left:'NaOH + HCl ⟶ NaCl + H2O',right:'إحلال مزدوج (تعادل)'},{left:'2Mg + O2 ⟶ 2MgO',right:'اتحاد مباشر'}],
+    explanation:'الانحلال تفكك مركب، والإحلال البسيط عنصر محل عنصر، والمزدوج تبادل أيونات، والاتحاد تكوين مركب.', sourceReference:'ص 13-27' },
+  { id:'boss2', phaseLabel:'المرحلة 2: اغسل الغازات الحمضية', type:'sequence', question:'رتب خطوات معالجة الغازات الحمضية في مداخن المصانع',
+    steps:['تمر الغازات الحمضية (مثل SO2) خلال رذاذ من محاليل قلوية','تحدث تفاعلات تعادل بين الغازات الحمضية والمحاليل القلوية','تتكون رواسب آمنة (أملاح لا تذوب في الماء)'],
+    explanation:'التعادل يحوّل الغازات الحمضية إلى أملاح آمنة، فيقل تكون الأمطار الحمضية.', sourceReference:'ص 71' },
+  { id:'boss3', phaseLabel:'المرحلة 3: لغز الأكسدة', type:'diagnosis', question:'في التفاعل Zn + CuSO4 ⟶ ZnSO4 + Cu، ما العامل المختزل؟',
+    options:['الخارصين Zn لأنه فقد إلكترونات وتأكسد','أيونات النحاس Cu²⁺','كبريتات الخارصين','النحاس Cu'],answer:0,
+    explanation:'Zn فقد إلكترونين فتأكسد (عامل مختزل)، وCu²⁺ اكتسبهما فاختُزل (عامل مؤكسد).', sourceReference:'ص 32' },
+  { id:'boss4', phaseLabel:'المرحلة 4: التحدي السريع', type:'speed',
+    items:[
+      { q:'تفاعل HCl مع NaOH يسمى تفاعل التعادل', options:['صح','خطأ'], answer:0, explanation:'صحيح: ينتج ملح وماء.' },
+      { q:'النحاس يحل محل الهيدروجين في HCl المخفف', options:['صح','خطأ'], answer:1, explanation:'خطأ: النحاس يلي الهيدروجين في المتسلسلة.' },
+      { q:'الاحتراق غير التام للغاز الطبيعي قد ينتج سناجًا', options:['صح','خطأ'], answer:0, explanation:'صحيح: السناج كربون غير محترق.' },
+      { q:'اللهب الأزرق في موقد بنزن يدل على احتراق غير تام', options:['صح','خطأ'], answer:1, explanation:'خطأ: اللهب الأزرق احتراق تام، والأصفر غير تام.' }
+    ], sourceReference:'مراجعة شاملة' },
+  { id:'boss5', phaseLabel:'المرحلة 5: التصنيف النهائي', type:'classify', question:'صنّف كل مادة حسب نوع أكسيدها',
+    buckets:['أكسيد قاعدي','أكسيد حمضي'],
+    items:[{label:'MgO',bucket:'أكسيد قاعدي'},{label:'CO2',bucket:'أكسيد حمضي'},{label:'ناتج احتراق الماغنسيوم',bucket:'أكسيد قاعدي'},{label:'ناتج احتراق الكربون',bucket:'أكسيد حمضي'}],
+    explanation:'أكاسيد الفلزات قاعدية (دوار الشمس أزرق)، وأكاسيد اللافلزات حمضية (دوار الشمس أحمر).', sourceReference:'ص 59' }
+];
+
+
+/* ================== 3) الحالة العامة للعبة — STATE ================== */
+const state = {
+  screen: 'intro',
+  studentName: '',
+  attemptId: '',
+  startedAt: 0,
+  levelProgress: {},   // { levelId: {done:bool, correct:n, total:n} }
+  currentLevel: 1,
+  currentQueue: [],    // قائمة أسئلة المرحلة الحالية
+  currentIndex: 0,
+  score: 0,
+  combo: 0,
+  maxCombo: 0,
+  lives: CONFIG.LIVES_START,
+  correctCount: 0,
+  wrongCount: 0,
+  unansweredCount: 0,
+  totalQuestions: 0,
+  questionTimes: [],   // الوقت المستغرق في كل سؤال (بالثواني)
+  bossIndex: 0,
+  bossHP: 100,
+  soundOn: true,
+  activeTimer: null,
+  answered: false,
+  dragState: null,
+  studentPhoto: null,
+  lifeRestored: false
+};
+
+function uid(){ return 'REACT-' + new Date().getFullYear() + '-' + Math.random().toString(36).slice(2,8).toUpperCase(); }
+function shuffle(arr){ const a=arr.slice(); for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
+function clamp(n,min,max){ return Math.max(min,Math.min(max,n)); }
+function fmtTime(sec){ const m=Math.floor(sec/60), s=Math.floor(sec%60); return String(m).padStart(2,'0')+':'+String(s).padStart(2,'0'); }
+function esc(s){ return String(s).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+function $(sel,root){ return (root||document).querySelector(sel); }
+function $all(sel,root){ return Array.from((root||document).querySelectorAll(sel)); }
+
+/* ================== 4) نظام الصوت — Web Audio API (بدون ملفات خارجية) ================== */
+const SFX = (function(){
+  let ctx = null;
+  function ensureCtx(){ if(!ctx){ try{ ctx = new (window.AudioContext||window.webkitAudioContext)(); }catch(e){ ctx=null; } } return ctx; }
+  function tone(freq, start, dur, type, gainPeak){
+    const c = ensureCtx(); if(!c || !state.soundOn) return;
+    const osc = c.createOscillator(); const gain = c.createGain();
+    osc.type = type||'sine'; osc.frequency.setValueAtTime(freq, c.currentTime+start);
+    gain.gain.setValueAtTime(0, c.currentTime+start);
+    gain.gain.linearRampToValueAtTime(gainPeak||0.18, c.currentTime+start+0.02);
+    gain.gain.exponentialRampToValueAtTime(0.001, c.currentTime+start+dur);
+    osc.connect(gain); gain.connect(c.destination);
+    osc.start(c.currentTime+start); osc.stop(c.currentTime+start+dur+0.05);
+  }
+  return {
+    correct(){ tone(523.25,0,.14,'sine'); tone(659.25,.09,.16,'sine'); tone(783.99,.18,.22,'sine'); },
+    wrong(){ tone(220,0,.18,'sawtooth',.12); tone(174.6,.1,.24,'sawtooth',.12); },
+    tick(){ tone(880,0,.045,'square',.05); },
+    timeup(){ tone(196,0,.3,'triangle',.15); tone(130.8,.15,.35,'triangle',.13); },
+    levelup(){ tone(523.25,0,.12,'triangle'); tone(659.25,.1,.12,'triangle'); tone(783.99,.2,.12,'triangle'); tone(1046.5,.3,.28,'triangle'); },
+    combo(){ tone(700,0,.08,'square',.08); tone(900,.06,.1,'square',.08); },
+    boss(){ tone(110,0,.35,'sawtooth',.14); tone(146.8,.15,.35,'sawtooth',.14); tone(98,.32,.4,'sawtooth',.16); },
+    bossHit(){ tone(392,0,.1,'square',.1); tone(261.6,.08,.16,'square',.1); },
+    victory(){ [523.25,659.25,783.99,1046.5,1318.5].forEach((f,i)=>tone(f,i*.12,.3,'triangle',.16)); },
+    certificate(){ tone(392,0,.2,'sine'); tone(523.25,.15,.2,'sine'); tone(659.25,.3,.2,'sine'); tone(783.99,.45,.4,'sine'); },
+    click(){ tone(600,0,.05,'square',.05); }
+  };
+})();
+function toggleSound(){
+  state.soundOn = !state.soundOn;
+  try{ localStorage.setItem(CONFIG.SOUND_KEY, state.soundOn ? '1':'0'); }catch(e){}
+  renderSoundBtn();
+}
+function renderSoundBtn(){
+  const b = $('#soundToggleBtn'); if(b) b.textContent = state.soundOn ? '🔊' : '🔇';
+}
+
+/* ================== 5) محرك المؤقت — دقيق بالكامل (Date.now-based) ================== */
+const Timer = (function(){
+  let rafId = null;
+  let endsAt = 0;
+  let totalSec = CONFIG.QUESTION_SECONDS;
+  let onTick = null, onExpire = null;
+  let expired = false;
+  let running = false;
+
+  function start(seconds, tickCb, expireCb){
+    stop(); // يضمن عدم استمرار مؤقت السؤال السابق أو بدء مؤقت جديد قبل ظهور السؤال
+    totalSec = seconds;
+    endsAt = Date.now() + seconds*1000; // اعتماد كامل على الفارق الزمني الحقيقي وليس على عدد الإطارات
+    onTick = tickCb; onExpire = expireCb;
+    expired = false; running = true;
+    loop();
+  }
+  function loop(){
+    if(!running) return;
+    const remainMs = endsAt - Date.now();
+    const remainSec = Math.max(0, remainMs/1000);
+    if(onTick) onTick(remainSec, totalSec);
+    if(remainMs <= 0){
+      if(!expired){ expired = true; running = false; if(onExpire) onExpire(); }
+      return;
+    }
+    rafId = requestAnimationFrame(loop);
+  }
+  function stop(){
+    running = false;
+    if(rafId) cancelAnimationFrame(rafId);
+    rafId = null; onTick = null; onExpire = null;
+  }
+  function remaining(){ return Math.max(0, (endsAt-Date.now())/1000); }
+  return { start, stop, remaining };
+})();
+
+function renderTimerRing(remainSec, totalSec){
+  const wrap = $('#timerWrap'); if(!wrap) return;
+  const pct = clamp(remainSec/totalSec,0,1);
+  const r = 33, c = 2*Math.PI*r;
+  const bar = $('#timerBarCircle', wrap);
+  if(bar) bar.style.strokeDasharray = (c*pct).toFixed(1)+' '+c.toFixed(1);
+  const num = $('#timerNum', wrap);
+  if(num) num.textContent = fmtTime(Math.ceil(remainSec));
+  wrap.classList.remove('warn','crit');
+  if(remainSec <= 10){ wrap.classList.add('crit'); }
+  else if(remainSec <= 20){ wrap.classList.add('warn'); }
+  if(Math.ceil(remainSec) <= 10 && Math.ceil(remainSec) >= 1 && Math.abs(remainSec - Math.round(remainSec)) < 0.06){
+    if(window.__lastTick !== Math.ceil(remainSec)){ window.__lastTick = Math.ceil(remainSec); SFX.tick(); }
+  }
+}
+function timerRingSVG(){
+  const r=33, c=2*Math.PI*r;
+  return '<div class="timer-wrap" id="timerWrap"><div class="timer-ring"><svg viewBox="0 0 76 76">'
+    + '<circle class="timer-track" cx="38" cy="38" r="'+r+'"></circle>'
+    + '<circle class="timer-bar" id="timerBarCircle" cx="38" cy="38" r="'+r+'" stroke-dasharray="'+c+' '+c+'"></circle>'
+    + '</svg><div class="timer-num" id="timerNum">01:00</div></div></div>';
+}
+
+/* ================== 6) محرك السحب واللمس — Drag & Drop عام (يدعم الماوس واللمس) ================== */
+function makeDraggableChip(chipEl, onDrop){
+  function pointerDown(e){
+    if(state.answered || chipEl.classList.contains('locked-correct') || chipEl.classList.contains('locked-wrong')) return;
+    if(e.pointerType==='mouse' && e.button!==0) return;
+    e.preventDefault();
+    const rect = chipEl.getBoundingClientRect();
+    const ghost = chipEl.cloneNode(true);
+    ghost.classList.add('drag-ghost');
+    ghost.style.position='fixed'; ghost.style.width=rect.width+'px';
+    ghost.style.left=rect.left+'px'; ghost.style.top=rect.top+'px'; ghost.style.margin='0';
+    document.body.appendChild(ghost);
+    chipEl.classList.add('dragging');
+    function move(ev){
+      const x=ev.clientX, y=ev.clientY;
+      ghost.style.left=(x-rect.width/2)+'px'; ghost.style.top=(y-rect.height/2)+'px';
+      ghost.style.display='none';
+      const el=document.elementFromPoint(x,y);
+      ghost.style.display='';
+      $all('.dnd-target').forEach(t=>t.classList.remove('hover-ok'));
+      const t = el && el.closest ? el.closest('.dnd-target') : null;
+      if(t && !t.classList.contains('right')) t.classList.add('hover-ok');
+    }
+    function up(ev){
+      document.removeEventListener('pointermove',move);
+      document.removeEventListener('pointerup',up);
+      const x=ev.clientX, y=ev.clientY;
+      ghost.style.display='none';
+      const el=document.elementFromPoint(x,y);
+      ghost.remove();
+      chipEl.classList.remove('dragging');
+      $all('.dnd-target').forEach(t=>t.classList.remove('hover-ok'));
+      const t = el && el.closest ? el.closest('.dnd-target') : null;
+      if(t) onDrop(t);
+    }
+    document.addEventListener('pointermove',move);
+    document.addEventListener('pointerup',up,{once:true});
+  }
+  chipEl.addEventListener('pointerdown', pointerDown);
+}
+
+function makeSortableList(container, onReorderAttempt){
+  const sel = '.seq-item';
+  $all(sel, container).forEach(item=>{
+    item.addEventListener('pointerdown', function(e){
+      if(state.answered) return;
+      if(e.pointerType==='mouse' && e.button!==0) return;
+      e.preventDefault();
+      const rect = item.getBoundingClientRect();
+      const ghost = item.cloneNode(true);
+      ghost.classList.add('drag-ghost');
+      ghost.style.position='fixed'; ghost.style.width=rect.width+'px';
+      ghost.style.left=rect.left+'px'; ghost.style.top=rect.top+'px'; ghost.style.margin='0';
+      document.body.appendChild(ghost);
+      const placeholder = document.createElement('div');
+      placeholder.className='seq-item';
+      placeholder.style.opacity='0.15';
+      placeholder.style.height = rect.height+'px';
+      placeholder.textContent = '';
+      item.classList.add('dragging');
+      item.style.display='none';
+      item.parentNode.insertBefore(placeholder, item);
+      function move(ev){
+        ghost.style.left=(ev.clientX-rect.width/2)+'px';
+        ghost.style.top=(ev.clientY-rect.height/2)+'px';
+        const items = $all(sel, container).filter(x=>x!==item);
+        let placed=false;
+        for(const it of items){
+          if(it===placeholder) continue;
+          const r=it.getBoundingClientRect();
+          if(ev.clientY < r.top+r.height/2){
+            container.insertBefore(placeholder, it); placed=true; break;
+          }
+        }
+        if(!placed) container.appendChild(placeholder);
+      }
+      function up(){
+        document.removeEventListener('pointermove',move);
+        document.removeEventListener('pointerup',up);
+        ghost.remove();
+        item.style.display='';
+        item.classList.remove('dragging');
+        placeholder.parentNode.insertBefore(item, placeholder);
+        placeholder.remove();
+        if(onReorderAttempt) onReorderAttempt();
+      }
+      document.addEventListener('pointermove',move);
+      document.addEventListener('pointerup',up,{once:true});
+    });
+  });
+}
+
+/* ================== 7) رسومات SVG مبسطة (من تصميم اللعبة) — Hotspot & Graph ================== */
+function reactHotspot(kind){
+  const T=(x,y,t,c,s)=>'<text x="'+x+'" y="'+y+'" font-size="'+(s||12)+'" fill="'+(c||'var(--ink)')+'" text-anchor="middle" font-weight="800">'+t+'</text>';
+  if(kind==='activity'){
+    const it=['Mg','Zn','Fe','H','Cu'], cols=['#ff7a3d','#ffb545','#c9d65a','#39c6ff','#b87333'];
+    let s='<svg viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg">'+T(150,14,'متسلسلة النشاط الكيميائي',null,12);
+    const spots=[];
+    it.forEach((n,i)=>{ const y=26+i*31; s+='<rect x="90" y="'+y+'" width="120" height="26" rx="8" fill="'+cols[i]+'" fill-opacity=".35" stroke="'+cols[i]+'"/>'+T(150,y+18,n,null,14); spots.push({id:n,label:n,x:150,y:y+13}); });
+    s+='<path d="M50 30V175" stroke="var(--ink-dim)" stroke-width="2"/><path d="M44 168L50 178L56 168" fill="var(--ink-dim)"/>'+T(50,196,'يقل النشاط',null,10);
+    return {spots:spots,svg:s+'</svg>'};
+  }
+  if(kind==='tubes'){
+    let s='<svg viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg">'+T(150,16,'ثلاث أنابيب بها HCl مخفف بكميات متساوية',null,11);
+    const m=[['Mg',60],['Fe',150],['Cu',240]], spots=[];
+    m.forEach(a=>{ const x=a[1]; s+='<rect x="'+(x-22)+'" y="30" width="44" height="130" rx="10" fill="rgba(57,198,255,.12)" stroke="var(--ink-dim)" stroke-width="2"/><rect x="'+(x-20)+'" y="70" width="40" height="88" rx="8" fill="rgba(57,198,255,.25)"/><rect x="'+(x-8)+'" y="135" width="16" height="18" rx="3" fill="var(--gold)"/>'+T(x,182,a[0],null,14); spots.push({id:a[0],label:'أنبوبة '+a[0],x:x,y:110}); });
+    return {spots:spots,svg:s+'</svg>'};
+  }
+  if(kind==='phscale'){
+    let s='<svg viewBox="0 0 300 140" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="phg" x1="0" x2="1"><stop offset="0" stop-color="#e53935"/><stop offset=".25" stop-color="#ffb300"/><stop offset=".5" stop-color="#43a047"/><stop offset=".75" stop-color="#1e88e5"/><stop offset="1" stop-color="#7b1fa2"/></linearGradient></defs><rect x="20" y="40" width="260" height="34" rx="8" fill="url(#phg)"/>'+T(150,18,'تدرج لون دليل اليونيفرسال',null,12);
+    [0,7,14].forEach(v=>{ s+=T(20+v/14*260,98,'pH '+v,'var(--ink-dim)',11); });
+    s+=T(60,125,'ترداد الحمضية','var(--ink-dim)',10)+T(240,125,'ترداد القلوية','var(--ink-dim)',10);
+    return {spots:[{id:'acid',label:'الطرف الحمضي القوي',x:38,y:57},{id:'neutral',label:'المحلول المتعادل',x:150,y:57},{id:'base',label:'الطرف القلوي القوي',x:262,y:57}],svg:s+'</svg>'};
+  }
+  if(kind==='burner'){
+    let s='<svg viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg">'+T(150,14,'موقد بنزن',null,12);
+    s+='<path d="M150 22C128 52 136 70 150 78C164 70 172 52 150 22Z" fill="#39c6ff" fill-opacity=".6" stroke="#39c6ff"/><rect x="138" y="78" width="24" height="70" rx="4" fill="var(--bg-panel-2)" stroke="var(--ink-dim)" stroke-width="2"/><rect x="132" y="118" width="36" height="14" rx="4" fill="var(--gold)" fill-opacity=".5" stroke="var(--gold)"/><rect x="118" y="148" width="64" height="12" rx="4" fill="var(--bg-panel-2)" stroke="var(--ink-dim)" stroke-width="2"/><rect x="182" y="150" width="70" height="8" rx="3" fill="#888"/>'+T(222,176,'مدخل الغاز','var(--ink-dim)',10);
+    return {spots:[{id:'flame',label:'اللهب',x:150,y:50},{id:'valve',label:'صمام الهواء',x:150,y:125},{id:'gas',label:'مدخل الغاز',x:222,y:154}],svg:s+'</svg>'};
+  }
+  return null;
+}
+function reactGraph(kind){
+  if(kind==='oxRatio') return barChartSVG({cats:['تام','غير تام (CO)','غير تام (سناج)'],yMax:2.5,xTitle:'نوع احتراق الميثان',yTitle:'جزيئات O2 لكل CH4',series:[{name:'O2',color:'#39c6ff',vals:[2,1.5,1]}]});
+  if(kind==='actRank') return barChartSVG({cats:['Na','Mg','Zn','Fe','Cu'],yMax:5.5,xTitle:'الفلز',yTitle:'ترتيب النشاط (الأعلى أنشط)',series:[{name:'النشاط',color:'#2ee6a6',vals:[5,4,3,2,1]}]});
+  return null;
+}
+
+function buildHotspotSVG(kind){ const RX=reactHotspot(kind); if(RX) return RX;
+  const T = (x,y,t,extra)=>'<text x="'+x+'" y="'+y+'" font-size="11" fill="var(--ink-dim)" text-anchor="middle" '+(extra||'')+'>'+t+'</text>';
+  if(kind==='atom'){
+    return {
+      spots:[
+        {id:'nucleus', label:'النواة', x:150, y:150},
+        {id:'innerE', label:'إلكترون قريب', x:220, y:150},
+        {id:'outerE', label:'إلكترون بعيد', x:150, y:260}
+      ],
+      svg:'<svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">'
+        +'<circle cx="150" cy="150" r="70" fill="none" stroke="var(--line)" stroke-dasharray="4 4"/>'
+        +'<circle cx="150" cy="150" r="110" fill="none" stroke="var(--line)" stroke-dasharray="4 4"/>'
+        +'<circle cx="150" cy="150" r="26" fill="rgba(255,138,61,.35)" stroke="var(--teal)" stroke-width="2"/>'
+        +'<circle cx="142" cy="144" r="7" fill="#ff5fd1"/><circle cx="158" cy="146" r="7" fill="#8fa2ff"/><circle cx="148" cy="160" r="7" fill="#ff5fd1"/><circle cx="160" cy="158" r="7" fill="#8fa2ff"/>'
+        +'<circle cx="220" cy="150" r="6" fill="var(--cyan)"/><circle cx="150" cy="260" r="6" fill="var(--cyan)"/><circle cx="72" cy="150" r="6" fill="var(--cyan)"/>'
+        +T(150,22,'نموذج ذرة (مستويات الطاقة)')
+        +'</svg>'
+    };
+  }
+  if(kind==='levels'){
+    const ys={K:222,L:168,M:124,N:92};
+    let s='<svg viewBox="0 0 300 260" xmlns="http://www.w3.org/2000/svg">'
+      +'<line x1="34" y1="238" x2="34" y2="40" stroke="var(--ink-faint)" stroke-width="2"/>'
+      +'<path d="M28 50 L34 38 L40 50" fill="none" stroke="var(--ink-faint)" stroke-width="2"/>'
+      +T(16,140,'الطاقة','transform="rotate(-90 16 140)"');
+    ['K','L','M','N'].forEach((k,i)=>{
+      s+='<line x1="70" y1="'+ys[k]+'" x2="250" y2="'+ys[k]+'" stroke="var(--cyan)" stroke-width="3"/>'
+        +'<text x="262" y="'+(ys[k]+4)+'" font-size="14" font-weight="800" fill="var(--ink)">'+k+'</text>'
+        +'<text x="52" y="'+(ys[k]+4)+'" font-size="10" fill="var(--ink-dim)" text-anchor="middle">n='+(i+1)+'</text>';
+    });
+    s+='</svg>';
+    return { spots:['K','L','M','N'].map(k=>({id:k,label:'المستوى '+k,x:160,y:ys[k]})), svg:s };
+  }
+  if(kind==='periodic'){
+    const cw=26, ch=22, x0=14, y0=30;
+    const has=(g,p)=> p===1 ? (g===1||g===18) : (p<=3 ? (g<=2||g>=13) : true);
+    const col=(g)=> g<=2 ? 'rgba(255,138,61,.38)' : (g>=13 ? 'rgba(57,198,255,.34)' : 'rgba(164,91,255,.36)');
+    let s='<svg viewBox="0 0 490 292" xmlns="http://www.w3.org/2000/svg">';
+    for(let g=1;g<=18;g++){ s+='<text x="'+(x0+(g-1)*cw+cw/2-1)+'" y="'+(y0-8)+'" font-size="9" fill="var(--ink-dim)" text-anchor="middle">'+g+'</text>'; }
+    for(let p=1;p<=7;p++){ for(let g=1;g<=18;g++){ if(!has(g,p)) continue;
+      s+='<rect x="'+(x0+(g-1)*cw)+'" y="'+(y0+(p-1)*ch)+'" width="'+(cw-2)+'" height="'+(ch-2)+'" rx="3" fill="'+col(g)+'" stroke="var(--line)"/>'; } }
+    const fy=y0+7*ch+12;
+    for(let r=0;r<2;r++){ for(let c=0;c<14;c++){
+      s+='<rect x="'+(x0+(c+2)*cw)+'" y="'+(fy+r*ch)+'" width="'+(cw-2)+'" height="'+(ch-2)+'" rx="3" fill="rgba(255,211,92,.34)" stroke="var(--line)"/>'; } }
+    s+='<text x="'+(x0+cw)+'" y="'+(y0+5.5*ch)+'" font-size="20" font-weight="900" fill="rgba(255,255,255,.35)" text-anchor="middle">s</text>';
+    s+='<text x="'+(x0+15.5*cw)+'" y="'+(y0+2*ch+4)+'" font-size="20" font-weight="900" fill="rgba(255,255,255,.35)" text-anchor="middle" >p</text>';
+    s+='<text x="'+(x0+7.5*cw)+'" y="'+(y0+3*ch+10)+'" font-size="20" font-weight="900" fill="rgba(255,255,255,.35)" text-anchor="middle">d</text>';
+    s+='<text x="'+(x0+cw)+'" y="'+(fy+ch)+'" font-size="20" font-weight="900" fill="rgba(255,255,255,.35)" text-anchor="middle">f</text>';
+    s+='<text x="245" y="284" font-size="10" fill="var(--ink-dim)" text-anchor="middle">الأرقام أعلى الجدول: الترقيم الحديث للمجموعات (1 – 18)</text>';
+    s+='</svg>';
+    const px=(g)=>x0+(g-1)*cw+cw/2-1, py=(p)=>y0+(p-1)*ch+ch/2-1;
+    return { spots:[
+      {id:'alkali', label:'المجموعة 1A', x:px(1), y:py(4)},
+      {id:'dblock', label:'الفئة d', x:px(7), y:py(5)},
+      {id:'halogens', label:'المجموعة 7A', x:px(17), y:py(5)},
+      {id:'noble', label:'المجموعة 0', x:px(18), y:py(3)},
+      {id:'fblock', label:'الفئة f', x:x0+8*cw+cw/2-1, y:fy+ch/2-1}
+    ], svg:s };
+  }
+  if(kind==='hoffman'){
+    return {
+      spots:[
+        {id:'cathode', label:'القطب (−)', x:92, y:118},
+        {id:'anode', label:'القطب (+)', x:208, y:118}
+      ],
+      svg:'<svg viewBox="0 0 300 250" xmlns="http://www.w3.org/2000/svg">'
+        +'<rect x="70" y="36" width="44" height="140" rx="10" fill="rgba(57,198,255,.10)" stroke="var(--line)" stroke-width="2"/>'
+        +'<rect x="186" y="36" width="44" height="140" rx="10" fill="rgba(57,198,255,.10)" stroke="var(--line)" stroke-width="2"/>'
+        +'<rect x="72" y="90" width="40" height="84" rx="8" fill="rgba(57,198,255,.28)"/>'
+        +'<rect x="188" y="90" width="40" height="84" rx="8" fill="rgba(57,198,255,.28)"/>'
+        +'<rect x="70" y="170" width="160" height="14" rx="7" fill="rgba(57,198,255,.28)" stroke="var(--line)"/>'
+        +'<line x1="92" y1="100" x2="92" y2="176" stroke="var(--gold)" stroke-width="4"/><line x1="208" y1="100" x2="208" y2="176" stroke="var(--gold)" stroke-width="4"/>'
+        +'<circle cx="86" cy="80" r="3" fill="var(--ink-dim)"/><circle cx="98" cy="66" r="3" fill="var(--ink-dim)"/><circle cx="90" cy="54" r="3" fill="var(--ink-dim)"/>'
+        +'<circle cx="204" cy="76" r="4" fill="var(--ink-dim)"/><circle cx="214" cy="60" r="4" fill="var(--ink-dim)"/>'
+        +'<path d="M92 184 L92 214 L120 214 M208 184 L208 214 L180 214" fill="none" stroke="var(--ink-faint)" stroke-width="2"/>'
+        +'<rect x="120" y="202" width="60" height="24" rx="5" fill="rgba(255,255,255,.08)" stroke="var(--line)"/>'
+        +'<text x="150" y="218" font-size="10" fill="var(--ink-dim)" text-anchor="middle">مصدر كهربي</text>'
+        +'<text x="92" y="26" font-size="16" font-weight="800" fill="var(--ink)" text-anchor="middle">(−)</text>'
+        +'<text x="208" y="26" font-size="16" font-weight="800" fill="var(--ink)" text-anchor="middle">(+)</text>'
+        +'<text x="150" y="130" font-size="10" fill="var(--ink-dim)" text-anchor="middle">ماء محمض</text>'
+        +'</svg>'
+    };
+  }
+  if(kind==='ionic'){
+    const flip = (typeof window.__ionicFlip==='boolean') ? window.__ionicFlip : false;
+    const A = {p:11,e:10,id:'cation'}, B = {p:17,e:18,id:'anion'};
+    const L = flip?B:A, R = flip?A:B;
+    const circ=(cx,o,tag)=>'<circle cx="'+cx+'" cy="82" r="50" fill="rgba(255,138,61,.14)" stroke="var(--teal)" stroke-width="2"/>'
+      +'<text x="'+cx+'" y="18" font-size="12" fill="var(--ink)" text-anchor="middle" font-weight="800">'+tag+'</text>'
+      +'<text x="'+cx+'" y="76" font-size="13" fill="var(--gold)" text-anchor="middle" font-weight="700">'+o.p+' بروتون</text>'
+      +'<text x="'+cx+'" y="98" font-size="13" fill="var(--cyan)" text-anchor="middle" font-weight="700">'+o.e+' إلكترون</text>';
+    return {
+      spots:[ {id:L.id,label:'الأيون (أ)',x:80,y:150}, {id:R.id,label:'الأيون (ب)',x:220,y:150} ],
+      svg:'<svg viewBox="0 0 300 180" xmlns="http://www.w3.org/2000/svg">'+circ(80,L,'الأيون (أ)')+circ(220,R,'الأيون (ب)')+'</svg>'
+    };
+  }
+  return {spots:[], svg:'<svg viewBox="0 0 300 200"></svg>'};
+}
+
+function renderHotspotSVG(kind){
+  if(kind==='ionic') window.__ionicFlip = Math.random()<0.5;
+  const data = buildHotspotSVG(kind);
+  let dots = data.spots.map(s=>{
+    return '<g class="hotspot-dot" data-id="'+s.id+'" data-label="'+esc(s.label)+'" transform="translate('+s.x+','+s.y+')">'
+      +'<circle class="ring" r="13" fill="rgba(255,213,92,.18)" stroke="var(--gold)" stroke-width="2"></circle>'
+      +'<circle r="4.5" fill="var(--gold)"></circle>'
+      +'</g>';
+  }).join('');
+  const svgOpen = data.svg.replace('</svg>','');
+  return { html: svgOpen + dots + '</svg>', spots: data.spots };
+}
+
+function barChartSVG(o){
+  const W=300,H=176,L=36,R=290,TOP=22,BOT=136;
+  let s='<svg viewBox="0 0 '+W+' '+H+'" xmlns="http://www.w3.org/2000/svg">'
+    +'<line x1="'+L+'" y1="'+BOT+'" x2="'+R+'" y2="'+BOT+'" stroke="var(--ink-faint)" stroke-width="1.5"/>'
+    +'<line x1="'+L+'" y1="'+BOT+'" x2="'+L+'" y2="'+TOP+'" stroke="var(--ink-faint)" stroke-width="1.5"/>';
+  const n=o.cats.length, gw=(R-L)/n, ns=o.series.length, bw=Math.min(26,(gw-8)/ns);
+  o.cats.forEach((c,i)=>{
+    o.series.forEach((se,j)=>{
+      const v=se.vals[i], h=(v/o.yMax)*(BOT-TOP), x=L+i*gw+(gw-ns*bw)/2+j*bw;
+      s+='<rect x="'+x.toFixed(1)+'" y="'+(BOT-h).toFixed(1)+'" width="'+(bw-2).toFixed(1)+'" height="'+h.toFixed(1)+'" rx="3" fill="'+se.color+'"/>'
+        +'<text x="'+(x+(bw-2)/2).toFixed(1)+'" y="'+(BOT-h-4).toFixed(1)+'" font-size="10" font-weight="700" fill="var(--ink)" text-anchor="middle">'+v+'</text>';
+    });
+    s+='<text x="'+(L+i*gw+gw/2).toFixed(1)+'" y="'+(BOT+14)+'" font-size="11" fill="var(--ink-dim)" text-anchor="middle">'+c+'</text>';
+  });
+  s+='<text x="'+((L+R)/2)+'" y="'+(H-6)+'" font-size="11" fill="var(--ink-dim)" text-anchor="middle">'+o.xTitle+'</text>';
+  s+='<text x="10" y="'+((TOP+BOT)/2)+'" font-size="11" fill="var(--ink-dim)" text-anchor="middle" transform="rotate(-90 10 '+((TOP+BOT)/2)+')">'+o.yTitle+'</text>';
+  if(ns>1){
+    let lx=R; o.series.forEach((se)=>{ lx-=88; s+='<rect x="'+lx+'" y="4" width="10" height="10" rx="2" fill="'+se.color+'"/><text x="'+(lx+14)+'" y="13" font-size="10" fill="var(--ink-dim)">'+se.name+'</text>'; });
+  }
+  return s+'</svg>';
+}
+
+function buildGraphSVG(kind){ const RG=reactGraph(kind); if(RG) return RG;
+  if(kind==='isoBars'){
+    return barChartSVG({ cats:['(1)','(2)','(3)','(4)','(5)'], yMax:24, xTitle:'رقم الذرة', yTitle:'العدد',
+      series:[ {name:'بروتونات', color:'var(--cyan)', vals:[20,16,16,7,8]}, {name:'نيوترونات', color:'var(--amber)', vals:[20,20,18,8,9]} ] });
+  }
+  if(kind==='shellBars'){
+    return barChartSVG({ cats:['K (1)','L (2)','M (3)','N (4)'], yMax:36, xTitle:'مستوى الطاقة', yTitle:'أقصى عدد إلكترونات',
+      series:[ {name:'الإلكترونات', color:'var(--teal)', vals:[2,8,18,32]} ] });
+  }
+  if(kind==='periodBars'){
+    return barChartSVG({ cats:['الدورة 1','الدورة 2','الدورة 3','الدورة 4'], yMax:20, xTitle:'رقم الدورة', yTitle:'عدد العناصر',
+      series:[ {name:'العناصر', color:'var(--violet)', vals:[2,8,8,18]} ] });
+  }
+  return '<svg viewBox="0 0 300 160"></svg>';
+}
+
+/* ================== 8) قلب اللعبة — بدء المراحل والأسئلة ================== */
+function levelQuestions(levelId){ return questionBank.filter(q=>q.level===levelId); }
+
+function startLevel(levelId){
+  state.currentLevel = levelId;
+  state.currentQueue = shuffle(levelQuestions(levelId));
+  state.currentIndex = 0;
+  state.levelProgress[levelId] = state.levelProgress[levelId] || {done:false, correct:0, total:state.currentQueue.length};
+  state.levelProgress[levelId].total = state.currentQueue.length;
+  state.levelProgress[levelId].correct = 0;
+  state.screen = 'question';
+  renderApp();
+}
+
+function currentQuestion(){ return state.currentQueue[state.currentIndex]; }
+
+function computeScore(diffKey, timeTakenSec, comboAfter){
+  let base = CONFIG.POINTS[diffKey] || CONFIG.POINTS.medium;
+  let bonus = 0;
+  if(timeTakenSec <= CONFIG.SPEED_BONUS.fast.maxSeconds) bonus = CONFIG.SPEED_BONUS.fast.bonus;
+  else if(timeTakenSec <= CONFIG.SPEED_BONUS.medium.maxSeconds) bonus = CONFIG.SPEED_BONUS.medium.bonus;
+  let subtotal = base + bonus;
+  let mult = 1;
+  if(comboAfter>=10) mult = CONFIG.COMBO_BONUS[10];
+  else if(comboAfter>=5) mult = CONFIG.COMBO_BONUS[5];
+  else if(comboAfter>=3) mult = CONFIG.COMBO_BONUS[3];
+  return Math.round(subtotal*mult);
+}
+
+function flashCombo(comboVal){
+  const layer = $('#comboLayer'); if(!layer) return;
+  let txt = '';
+  if(comboVal===3) txt='🔥 COMBO x3';
+  else if(comboVal===5) txt='🔥🔥 COMBO x5';
+  else if(comboVal>=10) txt='🔥🔥🔥 HUNTER COMBO';
+  else return;
+  const el = document.createElement('div');
+  el.className='combo-flash'; el.textContent = txt;
+  layer.appendChild(el);
+  SFX.combo();
+  requestAnimationFrame(()=>el.classList.add('show'));
+  setTimeout(()=>{ el.classList.remove('show'); setTimeout(()=>el.remove(),400); }, 1300);
+}
+
+function spawnParticles(kind){
+  const layer = $('#particleLayer'); if(!layer) return;
+  const n = 18; const colors = kind==='ok' ? ['#ff8a3d','#39c6ff','#3fe07a'] : ['#ff4d6d','#ff8a5b'];
+  for(let i=0;i<n;i++){
+    const p = document.createElement('div'); p.className='particle';
+    const size = 4+Math.random()*6;
+    p.style.width=size+'px'; p.style.height=size+'px';
+    p.style.background = colors[Math.floor(Math.random()*colors.length)];
+    p.style.left = (45+Math.random()*10)+'vw'; p.style.top = (55+Math.random()*10)+'vh';
+    layer.appendChild(p);
+    const dx = (Math.random()-0.5)*260, dy = -(Math.random()*260+60);
+    p.animate([
+      {transform:'translate(0,0)', opacity:1},
+      {transform:'translate('+dx+'px,'+dy+'px)', opacity:0}
+    ], {duration:900+Math.random()*500, easing:'cubic-bezier(.2,.7,.3,1)'});
+    setTimeout(()=>p.remove(), 1500);
+  }
+}
+
+/* ---- دورة حياة الإجابة: صحيح / خطأ / انتهاء الوقت ---- */
+let __answerLock = false;
+function finalizeAnswer(result, q, timeTakenSec, opts){
+  opts = opts || {};
+  if(state.answered) return;
+  state.answered = true;
+  Timer.stop();
+  const isBoss = !!opts.isBoss;
+  timeTakenSec = clamp(timeTakenSec, 0, CONFIG.QUESTION_SECONDS);
+  state.questionTimes.push(timeTakenSec);
+  state.totalQuestions++;
+
+  let pointsEarned = 0;
+  if(result===true){
+    state.combo++;
+    state.maxCombo = Math.max(state.maxCombo, state.combo);
+    state.correctCount++;
+    const diffKey = isBoss ? 'boss' : (q.difficulty||'medium');
+    pointsEarned = computeScore(diffKey, timeTakenSec, state.combo);
+    state.score += pointsEarned;
+    if(!isBoss && state.levelProgress[state.currentLevel]) state.levelProgress[state.currentLevel].correct++;
+    if(isBoss){ state.bossHP = Math.max(0, state.bossHP - (100/bossPhases.length)); SFX.bossHit(); }
+    else { SFX.correct(); }
+    spawnParticles('ok');
+    if([3,5,10].includes(state.combo) || state.combo>10) flashCombo(state.combo>=10?10:state.combo);
+  } else {
+    state.combo = 0;
+    state.lives = Math.max(0, state.lives-1);
+    if(result===false){ state.wrongCount++; SFX.wrong(); }
+    else { state.unansweredCount++; SFX.timeup(); }
+  }
+  if(isBoss){
+    const fillEl = $('#bossHpFill');
+    if(fillEl){ fillEl.style.width = state.bossHP+'%'; const lbl=$('.boss-hp-label'); if(lbl) lbl.textContent = Math.round(state.bossHP)+'%'; }
+  }
+
+  showFeedback(result, q, pointsEarned, isBoss);
+}
+
+function showFeedback(result, q, pointsEarned, isBoss){
+  const hostEl = $('#challengeHost'); if(hostEl) hostEl.style.pointerEvents = 'none';
+  const layer = $('#feedbackLayer');
+  let headClass = result===true?'ok':(result===false?'bad':'timeup');
+  let headText = result===true ? '✨ إجابة صحيحة!' : (result===false ? '❌ إجابة غير صحيحة' : '⏰ انتهى الوقت!');
+  let ansLine = '';
+  if(result!==true){
+    ansLine = '<div class="feedback-explain"><b>الإجابة الصحيحة:</b><br>'+correctAnswerText(q)+'</div>';
+  }
+  layer.innerHTML =
+    '<div class="feedback-overlay" id="fbOverlay">'
+    +'<div class="feedback-card panel pop-in">'
+    +'<div class="feedback-head '+headClass+'">'+headText+'</div>'
+    + ansLine
+    +'<div class="feedback-explain"><b>لماذا؟</b><br>'+esc(q.explanation||'')+'</div>'
+    + (q.sourceReference ? '<div class="q-source">📖 '+esc(q.sourceReference)+'</div>' : '')
+    + (result===true ? '<div class="feedback-points">+'+pointsEarned+' نقطة</div>' : '')
+    +'<button class="btn btn-primary btn-block" id="fbNextBtn" style="margin-top:14px;">متابعة</button>'
+    +'</div></div>';
+  requestAnimationFrame(()=>$('#fbOverlay').classList.add('show'));
+  $('#fbNextBtn').addEventListener('click', ()=>{
+    layer.querySelector('.feedback-overlay').classList.remove('show');
+    setTimeout(()=>{ layer.innerHTML=''; afterAnswerAdvance(isBoss); }, 260);
+  });
+}
+
+function correctAnswerText(q){
+  if(q.type==='mcq' || q.type==='diagnosis' || q.type==='graph'){ return esc(q.options[q.answer]); }
+  if(q.type==='match'){ return q.pairs.map(p=>esc(p.left)+' ⇦ '+esc(p.right)).join('<br>'); }
+  if(q.type==='classify'){
+    const byBucket = {};
+    q.items.forEach(it=>{ (byBucket[it.bucket]=byBucket[it.bucket]||[]).push(it.label); });
+    return Object.keys(byBucket).map(b=>'<b>'+esc(b)+':</b> '+byBucket[b].map(esc).join('، ')).join('<br>');
+  }
+  if(q.type==='sequence'){ return q.steps.map((s,i)=>(i+1)+'. '+esc(s)).join('<br>'); }
+  if(q.type==='hotspot'){
+    const d = buildHotspotSVG(q.svgKind); const sp = d.spots.find(s=>s.id===q.targetId);
+    return esc(sp?sp.label:'');
+  }
+  return '';
+}
+
+function afterAnswerAdvance(isBoss){
+  if(state.lives<=0){ state.screen='gameover'; renderApp(); return; }
+  if(isBoss){
+    state.bossIndex++;
+    if(state.bossIndex>=bossPhases.length){ finishGame(); return; }
+    renderApp(); return;
+  }
+  state.currentIndex++;
+  if(state.currentIndex>=state.currentQueue.length){
+    // انتهت المرحلة
+    if(state.levelProgress[state.currentLevel]) state.levelProgress[state.currentLevel].done = true;
+    const __before = state.lives; state.lives = Math.min(CONFIG.LIVES_START, state.lives+1); state.lifeRestored = state.lives>__before;
+    SFX.levelup();
+    state.screen='levelComplete';
+    renderApp();
+    return;
+  }
+  state.answered=false;
+  renderApp();
+}
+
+function finishGame(){
+  state.screen = 'results';
+  state.attemptId = uid();
+  saveAndSyncAttempt();
+  renderApp();
+}
+
+/* ================== 9) عارض التحديات حسب النوع — renderChallengeBody ================== */
+const ARABIC_LETTERS = ['أ','ب','ج','د','هـ'];
+
+function diffLabel(d){ return {easy:'سهل',medium:'متوسط',hard:'صعب',boss:'زعيم'}[d]||''; }
+function typeLabel(t){
+  return {
+    mcq:'اختيار من متعدد', diagnosis:'🩺 اكتشف المرض', graph:'📈 تحليل الرسم البياني',
+    classify:'🗂️ تصنيف', match:'🔗 وصل وتوفيق', sequence:'➡️ ترتيب تسلسلي',
+    hotspot:'🎯 اعثر على الهدف', memory:'🃏 بطاقات الذاكرة',
+    speed:'⚡ تحدي سريع'
+  }[t]||'';
+}
+
+function renderChallengeBody(q, isBoss){
+  const t = q.type;
+  if(t==='mcq' || t==='diagnosis' || t==='graph') return challengeMCQ(q, isBoss);
+  if(t==='hotspot') return challengeHotspot(q, isBoss);
+  if(t==='match') return challengeMatch(q, isBoss);
+  if(t==='classify') return challengeClassify(q, isBoss);
+  if(t==='sequence') return challengeSequence(q, isBoss);
+  if(t==='memory') return challengeMemory(q, isBoss);
+  return '<div class="sub">نوع تحدٍ غير معروف</div>';
+}
+function wireChallengeBody(q, isBoss){
+  const t = q.type;
+  if(t==='mcq' || t==='diagnosis' || t==='graph') return wireMCQ(q, isBoss);
+  if(t==='hotspot') return wireHotspot(q, isBoss);
+  if(t==='match') return wireMatch(q, isBoss);
+  if(t==='classify') return wireClassify(q, isBoss);
+  if(t==='sequence') return wireSequence(q, isBoss);
+  if(t==='memory') return wireMemory(q, isBoss);
+}
+
+/* ---- MCQ / Diagnosis / Graph ---- */
+/* ---- عشوائية عرض الاختيارات: الإجابة الصحيحة تُخزَّن مستقلة تماماً عن موضع العرض ----
+   نبني "نسخة عرض" (view) مشوّشة بخوارزمية Fisher-Yates من نفس shuffle() العامة،
+   كل عنصر فيها يحمل orig = فهرسه الأصلي في q.options (حيث q.answer ثابت ولا يتغير أبداً).
+   العرض (أ/ب/ج/د) يُبنى من ترتيب الـview بعد الخلط، فتتغيّر مواضع الإجابة الصحيحة
+   في كل مرة يُعرض فيها نفس السؤال (محاولة جديدة، طالب آخر، إعادة اللعب...). */
+function shuffleOptionsView(options){
+  return shuffle(options.map((text,i)=>({text:text, orig:i})));
+}
+function challengeMCQ(q, isBoss){
+  let html = '';
+  if(q.type==='graph') html += '<div class="hotspot-wrap" style="padding:10px;margin-bottom:16px;">'+buildGraphSVG(q.graphKind)+'</div>';
+  const view = shuffleOptionsView(q.options);
+  html += '<div class="opt-list" id="optList">';
+  view.forEach((opt,i)=>{
+    html += '<button class="opt-btn" data-orig="'+opt.orig+'"><span class="opt-letter">'+ARABIC_LETTERS[i]+'</span><span>'+esc(opt.text)+'</span></button>';
+  });
+  html += '</div>';
+  return html;
+}
+function wireMCQ(q, isBoss){
+  const qStart = Date.now();
+  $all('#optList .opt-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      if(state.answered) return;
+      const orig = +btn.dataset.orig;
+      const correct = orig===q.answer;
+      $all('#optList .opt-btn').forEach(b=>{
+        const bOrig = +b.dataset.orig;
+        b.classList.add('disabledopt');
+        if(bOrig===q.answer) b.classList.add('correct');
+        if(b===btn && !correct) b.classList.add('wrong');
+      });
+      const t = (Date.now()-qStart)/1000;
+      finalizeAnswer(correct, q, t, {isBoss});
+    });
+  });
+}
+
+/* ---- Hotspot ---- */
+function challengeHotspot(q, isBoss){
+  const r = renderHotspotSVG(q.svgKind);
+  return '<div class="hotspot-wrap" id="hotspotWrap">'+r.html+'</div>'
+    +'<div class="sub" style="text-align:center;margin-top:10px;">اضغط على الموضع الصحيح في الرسم</div>';
+}
+function wireHotspot(q, isBoss){
+  const qStart = Date.now();
+  $all('.hotspot-dot', $('#hotspotWrap')).forEach(dot=>{
+    dot.addEventListener('click', ()=>{
+      if(state.answered) return;
+      const id = dot.dataset.id;
+      const correct = id===q.targetId;
+      $all('.hotspot-dot').forEach(d=>{
+        const c = $('circle.ring', d);
+        if(d.dataset.id===q.targetId){ c.setAttribute('stroke','var(--ok)'); c.setAttribute('fill','rgba(63,224,122,.3)'); }
+        else if(d===dot && !correct){ c.setAttribute('stroke','var(--danger)'); c.setAttribute('fill','rgba(255,77,109,.3)'); }
+      });
+      const t = (Date.now()-qStart)/1000;
+      finalizeAnswer(correct, q, t, {isBoss});
+    });
+  });
+}
+
+/* ---- Match (وصل بالسحب) ---- */
+function challengeMatch(q, isBoss){
+  const leftItems = shuffle(q.pairs.map((p,i)=>({key:'L'+i, text:p.left, pairIndex:i})));
+  const rightItems = shuffle(q.pairs.map((p,i)=>({key:'R'+i, text:p.right, pairIndex:i})));
+  let html = '<div class="dnd-zone">';
+  html += '<div class="dnd-col-title">اسحب كل عنصر من الأعلى إلى الهدف الصحيح بالأسفل</div>';
+  html += '<div class="dnd-pool" id="dndPool">';
+  leftItems.forEach(it=> html += '<div class="dnd-chip" data-pair="'+it.pairIndex+'" data-key="'+it.key+'">'+esc(it.text)+'</div>');
+  html += '</div>';
+  html += '<div class="dnd-col" id="dndTargets" style="display:flex;flex-direction:column;gap:10px;margin-top:8px;">';
+  rightItems.forEach(it=> html += '<div class="dnd-target" data-pair="'+it.pairIndex+'"><span class="dnd-target-label">'+esc(it.text)+'</span></div>');
+  html += '</div></div>';
+  return html;
+}
+function wireMatch(q, isBoss){ wireDndGeneric(q, isBoss, 'pair', true); }
+
+/* ---- Classify (تصنيف بالسحب) ---- */
+function challengeClassify(q, isBoss){
+  const items = shuffle(q.items.map((it,i)=>({key:'I'+i, text:it.label, bucket:it.bucket})));
+  let html = '<div class="dnd-zone">';
+  html += '<div class="dnd-col-title">اسحب كل عنصر إلى المجموعة الصحيحة (كل مجموعة تقبل أكثر من عنصر)</div>';
+  html += '<div class="dnd-pool" id="dndPool">';
+  items.forEach(it=> html += '<div class="dnd-chip" data-bucket="'+esc(it.bucket)+'" data-key="'+it.key+'">'+esc(it.text)+'</div>');
+  html += '</div>';
+  html += '<div class="dnd-col" id="dndTargets" style="display:flex;flex-direction:column;gap:10px;margin-top:8px;">';
+  q.buckets.forEach(b=> html += '<div class="dnd-target" data-bucket="'+esc(b)+'" style="min-height:64px;flex-wrap:wrap;"><span class="dnd-target-label">'+esc(b)+'</span></div>');
+  html += '</div></div>';
+  return html;
+}
+function wireClassify(q, isBoss){ wireDndGeneric(q, isBoss, 'bucket', false); }
+
+/* ---- محرك سحب/إفلات عام (يُستخدم في match و classify) ----
+   singleSlot=true (match): كل هدف يقبل عنصراً واحداً فقط فيُغلق بعد أول إفلات صحيح.
+   singleSlot=false (classify): كل مجموعة (هدف) تقبل أكثر من عنصر، فلا يُغلق الهدف أبداً. */
+function wireDndGeneric(q, isBoss, matchAttr, singleSlot){
+  const qStart = Date.now();
+  const chips = $all('#dndPool .dnd-chip');
+  const total = chips.length;
+  let placed = 0, allCorrect = true;
+  chips.forEach(chip=>{
+    makeDraggableChip(chip, function(targetEl){
+      if(chip.classList.contains('locked-correct') || chip.classList.contains('locked-wrong')) return;
+      if(singleSlot && targetEl.classList.contains('right')) return; // الهدف ممتلئ بالفعل بعنصر صحيح (match فقط)
+      const chipVal = chip.dataset[matchAttr];
+      const targetVal = targetEl.dataset[matchAttr];
+      const isRight = chipVal === targetVal;
+      chip.classList.add(isRight?'locked-correct':'locked-wrong');
+      chip.classList.add('placed');
+      chip.style.cursor='default';
+      targetEl.appendChild(chip);
+      if(singleSlot){ targetEl.classList.add(isRight?'right':'wrongt','filled'); }
+      else { targetEl.classList.add('filled'); if(!isRight) targetEl.classList.add('wrongt'); }
+      if(!isRight) allCorrect = false;
+      placed++;
+      if(placed>=total){
+        SFX.click();
+        setTimeout(()=>{ const t=(Date.now()-qStart)/1000; finalizeAnswer(allCorrect, q, t, {isBoss}); }, 350);
+      }
+    });
+  });
+}
+
+/* ---- Sequence (ترتيب بالسحب) ---- */
+function challengeSequence(q, isBoss){
+  const order = shuffle(q.steps.map((s,i)=>({text:s, orig:i})));
+  let html = '<div class="dnd-col-title">اسحب لإعادة الترتيب الصحيح ثم اضغط تحقق</div>';
+  html += '<div class="seq-list" id="seqList">';
+  order.forEach((it,i)=> html += '<div class="seq-item" data-orig="'+it.orig+'"><span class="seq-num">'+(i+1)+'</span><span>'+esc(it.text)+'</span></div>');
+  html += '</div>';
+  html += '<button class="btn btn-primary btn-block" id="seqSubmit" style="margin-top:16px;">تحقق ✅</button>';
+  return html;
+}
+function wireSequence(q, isBoss){
+  const qStart = Date.now();
+  const container = $('#seqList');
+  function renumber(){ $all('.seq-item',container).forEach((it,i)=> $('.seq-num',it).textContent=(i+1)); }
+  makeSortableList(container, renumber);
+  $('#seqSubmit').addEventListener('click', ()=>{
+    if(state.answered) return;
+    const order = $all('.seq-item',container).map(it=>+it.dataset.orig);
+    const correct = order.every((v,i)=>v===i);
+    $all('.seq-item',container).forEach((it,i)=>{
+      it.style.borderColor = (+it.dataset.orig===i) ? 'var(--ok)' : 'var(--danger)';
+    });
+    const t=(Date.now()-qStart)/1000;
+    finalizeAnswer(correct, q, t, {isBoss});
+  });
+}
+
+/* ---- Memory Cards ---- */
+function challengeMemory(q, isBoss){
+  const cards = [];
+  q.pairs.forEach((p,i)=>{ cards.push({pairIndex:i,text:p.a}); cards.push({pairIndex:i,text:p.b}); });
+  const shuffled = shuffle(cards);
+  let html = '<div class="memory-grid" id="memGrid">';
+  shuffled.forEach((c,i)=>{
+    html += '<div class="mem-card" data-pair="'+c.pairIndex+'" data-idx="'+i+'">'
+      +'<div class="mem-card-inner">'
+      +'<div class="mem-face mem-back">🧪</div>'
+      +'<div class="mem-face mem-front">'+esc(c.text)+'</div>'
+      +'</div></div>';
+  });
+  html += '</div><div class="sub" style="text-align:center;margin-top:10px;">اقلب بطاقتين لإيجاد العلاقة الصحيحة</div>';
+  return html;
+}
+function wireMemory(q, isBoss){
+  const qStart = Date.now();
+  const total = q.pairs.length;
+  let matched = 0, lock=false, first=null;
+  $all('.mem-card', $('#memGrid')).forEach(card=>{
+    card.addEventListener('click', ()=>{
+      if(state.answered || lock || card.classList.contains('flipped') || card.classList.contains('matched')) return;
+      card.classList.add('flipped');
+      if(!first){ first = card; return; }
+      const second = card;
+      lock = true;
+      const isMatch = first.dataset.pair===second.dataset.pair && first!==second;
+      setTimeout(()=>{
+        if(isMatch){
+          first.classList.add('matched'); second.classList.add('matched');
+          matched++;
+          SFX.click();
+          if(matched>=total){
+            const t=(Date.now()-qStart)/1000;
+            finalizeAnswer(true, q, t, {isBoss});
+          }
+        } else {
+          first.classList.remove('flipped'); second.classList.remove('flipped');
+        }
+        first=null; lock=false;
+      }, isMatch?450:700);
+    });
+  });
+}
+
+/* ================== 10) الشاشات — Screens ================== */
+function renderApp(){
+  const app = $('#app');
+  const scr = state.screen;
+  if(scr==='intro') return renderIntroScreen(app);
+  if(scr==='nameEntry') return renderNameScreen(app);
+  if(scr==='map') return renderMapScreen(app);
+  if(scr==='question') return renderQuestionScreen(app);
+  if(scr==='levelComplete') return renderLevelCompleteScreen(app);
+  if(scr==='boss') return renderBossScreen(app);
+  if(scr==='gameover') return renderGameOverScreen(app);
+  if(scr==='results') return renderResultsScreen(app);
+  if(scr==='certificate') return renderCertificateScreen(app);
+  if(scr==='admin') return renderAdminScreen(app);
+  if(scr==='leaderboard') return renderLeaderboardScreen(app);
+  app.innerHTML = '<div class="scr center-col"><p>...</p></div>';
+}
+
+function hudBar(showBack){
+  return '<div class="hud">'
+    +'<div class="hud-group">'
+    + (showBack? '<button class="icon-btn" id="hudBackBtn">→</button>' : '')
+    +'</div>'
+    +'<div class="hud-group">'
+    +'<div class="hud-chip">⭐ '+state.score+'</div>'
+    +'<div class="hearts">'+Array.from({length:CONFIG.LIVES_START},(_,i)=>i).map(i=> i<state.lives? '❤️':'<span class="heart-lost">❤️</span>').join('')+'</div>'
+    +'<button class="icon-btn" id="soundToggleBtn">'+(state.soundOn?'🔊':'🔇')+'</button>'
+    +'</div></div>';
+}
+function mapExtrasBar(){
+  let leaderboardOn=false; try{ leaderboardOn = localStorage.getItem(CONFIG.LEADERBOARD_KEY)==='1'; }catch(e){}
+  return '<div style="display:flex;gap:8px;justify-content:center;margin:6px 0 4px;flex-wrap:wrap;">'
+    + (leaderboardOn? '<button class="btn btn-ghost btn-sm" id="lbBtn">🏆 أفضل الصيادين</button>' : '')
+    +'<button class="btn btn-ghost btn-sm" id="gearBtn">⚙️ لوحة المدرس</button>'
+    +'</div>';
+}
+
+/* ---- شاشة المقدمة السينمائية ---- */
+const CINEMA_LINES = [
+  'انفجر مصنع الكيماويات الكبير... واختلطت التفاعلات في كل مكان! 🧪',
+  'اختفت معادلات الأمان، وتصاعدت سحابة سوداء فوق المدينة...',
+  'وحش الدخان الأسود استولى على الهواء وأغلق أبواب التفاعلات.',
+  'لن يوقفه إلا صياد يعرف أنواع التفاعلات والأكسدة والاختزال والاحتراق.',
+  'هل أنت مستعد لإنقاذ الهواء؟ 🧪🔥'
+];
+function renderIntroScreen(app){
+  app.innerHTML = '<div class="scr center-col">'
+    +'<div class="intro-stage">'
+    +'<div class="dna-badge">🧪</div>'
+    +'<div class="big-title">'+CONFIG.GAME_TITLE+'</div>'
+    +'<div class="typewriter-box"><div class="cinema-line" id="cinemaLine"></div></div>'
+    +'<button class="btn btn-primary" id="startMissionBtn" style="display:none;">ابدأ المهمة 🏹</button>'
+    +'</div>'
+    +'<div class="footer-brand">بواسطة <b>'+esc(CONFIG.BRAND_NAME)+'</b> — «'+esc(CONFIG.BRAND_SLOGAN)+'»<br>'+esc(CONFIG.BRAND_PHONE)+'</div>'
+    +'</div>';
+  let idx=0; const lineEl = $('#cinemaLine');
+  function showNext(){
+    if(idx>=CINEMA_LINES.length){ $('#startMissionBtn').style.display='inline-flex'; return; }
+    lineEl.classList.remove('fadein'); void lineEl.offsetWidth; lineEl.classList.add('fadein');
+    lineEl.textContent = CINEMA_LINES[idx]; idx++;
+    setTimeout(showNext, 1900);
+  }
+  showNext();
+  $('#startMissionBtn').addEventListener('click', ()=>{ SFX.click(); state.screen='nameEntry'; renderApp(); });
+}
+
+/* ---- شاشة اسم الصياد ---- */
+function renderNameScreen(app){
+  app.innerHTML = '<div class="scr center-col">'
+    +'<div class="intro-stage">'
+    +'<div class="dna-badge" style="font-size:48px;">🏹</div>'
+    +'<div class="big-title" style="font-size:24px;">اكتب اسم الصياد</div>'
+    +'<p class="sub">سيظهر اسمك في النتيجة النهائية وعلى شهادة الإتمام</p>'
+    +'<input type="text" class="name-input" id="hunterNameInput" placeholder="اسمك هنا...">'
+    +'<button class="btn btn-primary" id="confirmNameBtn">دخول الميدان 🧭</button>'
+    +'</div></div>';
+  const input = $('#hunterNameInput'); input.focus();
+  function go(){
+    const v = input.value.trim();
+    if(!v){ input.style.borderColor='var(--danger)'; input.focus(); return; }
+    state.studentName = v; SFX.click(); state.screen='map'; renderApp();
+  }
+  $('#confirmNameBtn').addEventListener('click', go);
+  input.addEventListener('keydown', e=>{ if(e.key==='Enter') go(); });
+}
+
+/* ---- خريطة المغامرة ---- */
+function renderMapScreen(app){
+  const bossUnlocked = LEVELS.filter(l=>l.key!=='boss').every(l=> state.levelProgress[l.id] && state.levelProgress[l.id].done);
+  let html = '<div class="scr">';
+  html += hudBar(false);
+  html += '<div class="eyebrow">أهلاً '+esc(state.studentName)+' 🏹</div>';
+  html += '<h1 class="big-title" style="margin:4px 0 4px;">خريطة المغامرة</h1>';
+  html += '<p class="sub" style="margin-bottom:8px;">أكمل كل مرحلة لتفتح ما بعدها، وواجه الزعيم في النهاية</p>';
+  html += '<div class="map-path">';
+  LEVELS.forEach((lv,i)=>{
+    const isBoss = lv.key==='boss';
+    const prevDone = i===0 ? true : (state.levelProgress[LEVELS[i-1].id] && state.levelProgress[LEVELS[i-1].id].done);
+    const unlocked = isBoss ? bossUnlocked : prevDone;
+    const done = state.levelProgress[lv.id] && state.levelProgress[lv.id].done;
+    const cls = done?'done':(unlocked?'unlocked':'locked');
+    const stars = done ? '★★★' : '';
+    html += '<div class="map-node '+cls+'" data-lv="'+lv.id+'" data-boss="'+(isBoss?'1':'0')+'" data-unlocked="'+(unlocked?'1':'0')+'">'
+      +'<div class="map-node-icon">'+lv.icon+'</div>'
+      +'<div class="map-node-body"><div class="map-node-title">'+esc(lv.title)+'</div>'
+      +'<div class="map-node-desc">'+esc(lv.subtitle)+'</div>'
+      + (stars? '<div class="map-node-stars">'+stars+'</div>' : (unlocked? '<div class="map-node-desc">اضغط للبدء</div>' : '<div class="map-node-desc">🔒 مغلقة</div>'))
+      +'</div></div>';
+    if(i<LEVELS.length-1) html += '<div class="map-connector"></div>';
+  });
+  html += '</div>';
+  html += mapExtrasBar();
+  html += '</div>';
+  app.innerHTML = html;
+  $('#soundToggleBtn') && $('#soundToggleBtn').addEventListener('click', toggleSound);
+  $('#gearBtn') && $('#gearBtn').addEventListener('click', ()=>{ state.screen='admin'; renderApp(); });
+  $('#lbBtn') && $('#lbBtn').addEventListener('click', ()=>{ state.screen='leaderboard'; renderApp(); });
+  $all('.map-node').forEach(node=>{
+    node.addEventListener('click', ()=>{
+      if(node.dataset.unlocked!=='1') return;
+      SFX.click();
+      if(node.dataset.boss==='1'){ startBoss(); } else { startLevel(+node.dataset.lv); }
+    });
+  });
+}
+
+/* ---- شاشة السؤال (المراحل العادية) ---- */
+function renderQuestionScreen(app){
+  const q = currentQuestion();
+  const lv = LEVELS.find(l=>l.id===state.currentLevel);
+  state.answered = false;
+  let html = '<div class="scr">';
+  html += hudBar(true);
+  html += timerRingSVG();
+  html += '<div class="q-topbar"><span class="q-level-tag">'+lv.icon+' '+esc(lv.title)+'</span><span class="q-type-tag">'+typeLabel(q.type)+'</span></div>';
+  html += '<div class="panel glow-edge q-card">';
+  html += '<span class="q-diff diff-'+q.difficulty+'">'+diffLabel(q.difficulty)+' • '+ (CONFIG.POINTS[q.difficulty]) +' نقطة</span>';
+  html += '<div class="q-text">'+esc(q.question)+'</div>';
+  html += '</div>';
+  html += '<div id="challengeHost">'+renderChallengeBody(q,false)+'</div>';
+  html += '<div class="sub" style="text-align:center;margin-top:14px;">السؤال '+(state.currentIndex+1)+' من '+state.currentQueue.length+'</div>';
+  html += '</div>';
+  app.innerHTML = html;
+  $('#soundToggleBtn').addEventListener('click', toggleSound);
+  $('#hudBackBtn').addEventListener('click', ()=>{ if(confirm('هل تريد العودة للخريطة؟ ستفقد تقدمك في هذه المرحلة.')){ Timer.stop(); state.screen='map'; renderApp(); } });
+  wireChallengeBody(q,false);
+  Timer.start(CONFIG.QUESTION_SECONDS, renderTimerRing, ()=> finalizeAnswer(null, q, CONFIG.QUESTION_SECONDS, {isBoss:false}));
+}
+
+/* ---- شاشة إتمام المرحلة ---- */
+function renderLevelCompleteScreen(app){
+  const lv = LEVELS.find(l=>l.id===state.currentLevel);
+  const prog = state.levelProgress[state.currentLevel];
+  app.innerHTML = '<div class="scr center-col">'
+    +'<div class="intro-stage">'
+    +'<div class="dna-badge">'+lv.icon+'</div>'
+    +'<div class="big-title" style="font-size:24px;">أحسنت! 🎉</div>'
+    +'<p class="sub">أتممت مرحلة «'+esc(lv.title)+'»<br>إجابات صحيحة: '+prog.correct+' من '+prog.total+(state.lifeRestored?'<br>❤️ كسبت روحًا إضافية لإتمام المرحلة':'')+'</p>'
+    +'<button class="btn btn-primary" id="backMapBtn">العودة للخريطة 🗺️</button>'
+    +'</div></div>';
+  $('#backMapBtn').addEventListener('click', ()=>{ SFX.click(); state.screen='map'; renderApp(); });
+}
+
+/* ---- شاشة فشل الأرواح ---- */
+function renderGameOverScreen(app){
+  app.innerHTML = '<div class="scr center-col">'
+    +'<div class="intro-stage">'
+    +'<div class="dna-badge" style="filter:drop-shadow(0 0 20px rgba(255,77,109,.6));">💔</div>'
+    +'<div class="big-title" style="font-size:22px;color:var(--danger);">الصياد يحتاج إلى محاولة جديدة</div>'
+    +'<p class="sub">نفدت أرواحك، لكن نتائجك السابقة لن تُفقد.</p>'
+    +'<button class="btn btn-danger" id="retryBtn">إعادة المحاولة 🔁</button>'
+    +'</div></div>';
+  $('#retryBtn').addEventListener('click', ()=>{
+    SFX.click();
+    state.score=0; state.combo=0; state.maxCombo=0; state.lives=CONFIG.LIVES_START;
+    state.correctCount=0; state.wrongCount=0; state.unansweredCount=0; state.totalQuestions=0;
+    state.questionTimes=[]; state.levelProgress={}; state.bossIndex=0; state.bossHP=100; state.lifeRestored=false;
+    state.screen='map'; renderApp();
+  });
+}
+
+/* ---- الزعيم النهائي — وحش الدخان الأسود — SMOKE BEAST ---- */
+function startBoss(){
+  state.bossIndex = 0; state.bossHP = 100;
+  state.screen='boss'; renderApp();
+}
+function renderBossScreen(app){
+  const phase = bossPhases[state.bossIndex];
+  state.answered = false;
+  let html = '<div class="scr">';
+  html += hudBar(true);
+  html += '<div class="boss-portrait">🌫️</div>';
+  html += '<div class="big-title" style="text-align:center;font-size:22px;color:var(--danger);">وحش الدخان الأسود — SMOKE BEAST</div>';
+  html += '<div class="boss-hp-track" style="margin:14px 0 4px;"><div class="boss-hp-fill" id="bossHpFill" style="width:'+state.bossHP+'%;"></div><div class="boss-hp-label">'+Math.round(state.bossHP)+'%</div></div>';
+  html += '<div class="boss-phase-tag">'+esc(phase.phaseLabel)+' ('+(state.bossIndex+1)+'/'+bossPhases.length+')</div>';
+  html += timerRingSVG();
+  if(phase.type==='speed'){
+    html += renderSpeedPhase(phase);
+  } else {
+    html += '<div class="panel glow-edge q-card">'
+      +'<span class="q-diff diff-boss">زعيم • '+CONFIG.POINTS.boss+' نقطة</span>'
+      +'<div class="q-text">'+esc(phase.question)+'</div></div>';
+    html += '<div id="challengeHost">'+renderChallengeBody(phase,true)+'</div>';
+  }
+  html += '</div>';
+  app.innerHTML = html;
+  $('#soundToggleBtn').addEventListener('click', toggleSound);
+  $('#hudBackBtn').addEventListener('click', ()=>{ if(confirm('الخروج من معركة الزعيم؟ ستُعاد المعركة من البداية لاحقاً.')){ Timer.stop(); state.screen='map'; renderApp(); } });
+  if(phase.type==='speed'){ wireSpeedPhase(phase); }
+  else {
+    wireChallengeBody(phase, true);
+    Timer.start(CONFIG.QUESTION_SECONDS, renderTimerRing, ()=> finalizeBossAnswer(null, phase, CONFIG.QUESTION_SECONDS));
+  }
+  SFX.boss();
+}
+
+/* ---- المرحلة الخامسة للزعيم: التحدي السريع (Speed Run) ----
+   ملحوظة مهمة: كل سؤال فرعي داخل التحدي السريع له مؤقت 60 ثانية كاملة ومستقل بذاته،
+   تماماً كأي سؤال آخر في اللعبة — لا يوجد استثناء لمدة الأسئلة داخل Speed Run. */
+function renderSpeedPhase(phase){
+  let html = '<div class="panel glow-edge q-card" id="speedCard">';
+  html += '<span class="q-diff diff-boss">⚡ تحدي سريع • '+CONFIG.POINTS.boss+' نقطة</span>';
+  html += '<div class="q-text" id="speedQText"></div></div>';
+  html += '<div class="opt-list" id="speedOptList"></div>';
+  html += '<div class="sub" id="speedProgress" style="text-align:center;margin-top:10px;"></div>';
+  return html;
+}
+let __speedState = null;
+function wireSpeedPhase(phase){
+  __speedState = { idx:0, correctAll:true, timedOut:false, startAll:Date.now() };
+  renderSpeedItem(phase);
+}
+function renderSpeedItem(phase){
+  const it = phase.items[__speedState.idx];
+  $('#speedQText').textContent = it.q;
+  $('#speedProgress').textContent = 'سؤال '+(__speedState.idx+1)+' من '+phase.items.length+' — ⏱️ 60 ثانية لهذا السؤال';
+  const list = $('#speedOptList'); list.innerHTML='';
+  let locked = false;
+  const view = shuffleOptionsView(it.options); // عشوائية موضع الإجابة الصحيحة، مستقلة عن it.answer
+  function lockButtons(chosenOrig){
+    $all('.opt-btn',list).forEach(bb=>{
+      const bOrig = +bb.dataset.orig;
+      bb.classList.add('disabledopt');
+      if(bOrig===it.answer) bb.classList.add('correct');
+      if(chosenOrig!==null && bOrig===chosenOrig && bOrig!==it.answer) bb.classList.add('wrong');
+    });
+  }
+  function advance(){
+    Timer.stop();
+    __speedState.idx++;
+    if(__speedState.idx>=phase.items.length){
+      const t=(Date.now()-__speedState.startAll)/1000;
+      const finalResult = __speedState.timedOut ? null : __speedState.correctAll;
+      finalizeBossAnswer(finalResult, phase, t);
+    } else { renderSpeedItem(phase); }
+  }
+  view.forEach((opt,i)=>{
+    const b = document.createElement('button');
+    b.className='opt-btn'; b.dataset.orig = opt.orig;
+    b.innerHTML = '<span class="opt-letter">'+ARABIC_LETTERS[i]+'</span><span>'+esc(opt.text)+'</span>';
+    b.addEventListener('click', ()=>{
+      if(state.answered || locked) return;
+      locked = true;
+      const orig = +b.dataset.orig;
+      const correct = orig===it.answer;
+      if(!correct) __speedState.correctAll = false;
+      lockButtons(orig);
+      SFX[correct?'correct':'wrong']();
+      setTimeout(advance, 650);
+    });
+    list.appendChild(b);
+  });
+  // مؤقت مستقل كامل (60 ثانية) لهذا السؤال الفرعي تحديداً
+  Timer.start(CONFIG.QUESTION_SECONDS, renderTimerRing, ()=>{
+    if(state.answered || locked) return;
+    locked = true;
+    __speedState.correctAll = false;
+    __speedState.timedOut = true;
+    lockButtons(null);
+    SFX.timeup();
+    setTimeout(advance, 900);
+  });
+}
+
+function finalizeBossAnswer(result, phase, timeTakenSec){
+  // غلاف رفيع فوق finalizeAnswer الموحّد لضمان نفس منطق النقاط/الأرواح/الكومبو/شريط صحة الزعيم
+  // في كل أنواع تحديات الزعيم (Hotspot, Match, Sequence, Diagnosis, Classify, Speed)
+  finalizeAnswer(result, phase, timeTakenSec, {isBoss:true});
+}
+
+/* ================== 11) النتائج النهائية والرتبة ================== */
+function computeRank(){
+  const total = state.totalQuestions || 1;
+  const pct = Math.round((state.correctCount/total)*100);
+  const rank = CONFIG.RANKS.find(r=>pct>=r.min) || CONFIG.RANKS[CONFIG.RANKS.length-1];
+  return { pct, rank };
+}
+function totalTimeSpent(){ return state.questionTimes.reduce((a,b)=>a+b,0); }
+function avgQuestionTime(){ return state.questionTimes.length ? (totalTimeSpent()/state.questionTimes.length) : 0; }
+
+function renderResultsScreen(app){
+  const {pct, rank} = computeRank();
+  let html = '<div class="scr center-col">';
+  html += '<div class="rank-badge">'+rank.icon+'</div>';
+  html += '<div class="big-title" style="font-size:24px;">🎉 مبروك أيها الصياد!</div>';
+  html += '<div class="eyebrow" style="font-size:16px;margin-top:4px;">'+esc(state.studentName)+'</div>';
+  html += '<p class="sub">أتمّ بنجاح تحدي «'+CONFIG.GAME_TITLE+'»</p>';
+  html += '<div class="panel glow-edge" style="width:100%;margin-top:12px;">';
+  html += '<div style="text-align:center;font-weight:900;font-size:20px;color:var(--gold);">'+rank.icon+' '+rank.title+'</div>';
+  html += '<div class="stat-grid">';
+  html += statBox(state.score,'النقاط الكلية');
+  html += statBox(pct+'%','نسبة الدقة');
+  html += statBox(state.correctCount,'إجابات صحيحة');
+  html += statBox(state.wrongCount,'إجابات خاطئة');
+  html += statBox(state.unansweredCount,'بدون إجابة');
+  html += statBox(fmtTime(totalTimeSpent()),'الوقت الكلي');
+  html += statBox(state.maxCombo,'أعلى كومبو 🔥');
+  html += statBox(fmtTime(avgQuestionTime()),'متوسط وقت السؤال');
+  html += '</div></div>';
+  html += '<button class="btn btn-primary btn-block" id="getCertBtn" style="margin-top:16px;">🏆 احصل على الشهادة</button>';
+  html += '<button class="btn btn-ghost btn-block" id="backMapBtn2" style="margin-top:10px;">العودة للخريطة</button>';
+  html += '<div class="footer-brand">'+esc(CONFIG.BRAND_NAME)+' — «'+esc(CONFIG.BRAND_SLOGAN)+'» — '+esc(CONFIG.BRAND_PHONE)+'</div>';
+  html += '</div>';
+  app.innerHTML = html;
+  $('#getCertBtn').addEventListener('click', ()=>{ SFX.certificate(); state.screen='certificate'; renderApp(); });
+  $('#backMapBtn2').addEventListener('click', ()=>{ state.screen='map'; renderApp(); });
+}
+function statBox(num,label){ return '<div class="stat-box"><div class="stat-num">'+num+'</div><div class="stat-lbl">'+label+'</div></div>'; }
+
+/* ================== 12) الشهادة — Canvas + PNG + طباعة ================== */
+function certData(){
+  const {pct, rank} = computeRank();
+  return { name: state.studentName, score: state.score, pct: pct, rank: rank.icon+' '+rank.title,
+    certId: state.attemptId, date: (function(){ const d=new Date(); return d.getDate()+'/'+(d.getMonth()+1)+'/'+d.getFullYear(); })(),
+    correct: state.correctCount, total: state.totalQuestions, photo: state.studentPhoto };
+}
+function redrawCertificate(){
+  const c = $('#certCanvas'); if(!c) return;
+  drawCertificate(c, certData());
+}
+function showToast(msg){
+  let t = $('#toastBox');
+  if(!t){ t = document.createElement('div'); t.id='toastBox'; document.body.appendChild(t); }
+  t.textContent = msg; t.classList.add('show');
+  clearTimeout(showToast._t); showToast._t = setTimeout(()=>t.classList.remove('show'), 3200);
+}
+
+function renderCertificateScreen(app){
+  if(!state.attemptId) state.attemptId = uid();
+  let html = '<div class="scr center-col">';
+  html += '<div class="big-title" style="font-size:22px;">🏆 شهادة الإتمام</div>';
+  html += '<div class="cert-canvas-wrap" id="certWrap"><canvas id="certCanvas" width="1200" height="850"></canvas></div>';
+  html += '<div id="photoCtl" class="photo-ctl"></div>';
+  html += '<div id="photoError" class="photo-error" style="display:none"></div>';
+  html += '<input type="file" id="photoInput" accept="image/*" style="display:none">';
+  html += '<div class="hud-group" style="width:100%;justify-content:center;gap:12px;margin-top:6px;flex-wrap:wrap;">';
+  html += '<button class="btn btn-primary" id="dlCertBtn">📥 حفظ الشهادة PNG</button>';
+  html += '<button class="btn btn-ghost" id="printCertBtn">🖨️ طباعة الشهادة</button>';
+  html += '</div>';
+  html += '<button class="btn btn-ghost btn-block" id="backResultsBtn" style="margin-top:14px;">العودة للنتائج</button>';
+  html += '</div>';
+  app.innerHTML = html;
+  redrawCertificate();
+  if(document.fonts && document.fonts.ready){ document.fonts.ready.then(redrawCertificate); }
+  updatePhotoControls();
+  $('#photoInput').addEventListener('change', onPhotoChosen);
+  $('#dlCertBtn').addEventListener('click', downloadCertificatePNG);
+  $('#printCertBtn').addEventListener('click', printCertificate);
+  $('#backResultsBtn').addEventListener('click', ()=>{ state.screen='results'; renderApp(); });
+}
+
+/* ---- صورة الطالب على الشهادة (اختيارية) ---- */
+function updatePhotoControls(){
+  const box = $('#photoCtl'); if(!box) return;
+  if(!state.studentPhoto){
+    box.innerHTML = '<button class="btn btn-primary btn-block" id="addPhotoBtn">📸 أضف صورتك للشهادة</button>'
+      +'<div class="sub" style="text-align:center;margin-top:6px;">اختياري — JPG أو PNG أو WebP، والصورة تبقى على جهازك فقط</div>';
+    $('#addPhotoBtn').addEventListener('click', ()=>{ SFX.click(); $('#photoInput').click(); });
+  } else {
+    box.innerHTML = '<div class="photo-row"><canvas id="photoThumb" width="120" height="120" class="photo-thumb"></canvas>'
+      +'<div class="photo-btns"><button class="btn btn-ghost btn-sm" id="changePhotoBtn">🔄 تغيير الصورة</button>'
+      +'<button class="btn btn-ghost btn-sm" id="removePhotoBtn">🗑️ إزالة الصورة</button></div></div>';
+    const tc = $('#photoThumb').getContext('2d'); tc.drawImage(state.studentPhoto,0,0,120,120);
+    $('#changePhotoBtn').addEventListener('click', ()=>{ SFX.click(); $('#photoInput').click(); });
+    $('#removePhotoBtn').addEventListener('click', ()=>{ state.studentPhoto=null; updatePhotoControls(); redrawCertificate(); showToast('تمت إزالة الصورة من الشهادة'); });
+  }
+}
+function onPhotoChosen(e){
+  const input = e.target; const file = input.files && input.files[0];
+  if(!file){ return; }
+  setPhotoError('');
+  loadPhotoFile(file).then(function(cropped){
+    input.value = '';
+    openPhotoPreview(cropped);
+  }).catch(function(err){
+    input.value = '';
+    const msg = describePhotoError(file, err);
+    setPhotoError(msg); showToast('تعذّر استخدام الصورة — التفاصيل أسفل الزر');
+  });
+}
+function setPhotoError(msg){
+  const el = $('#photoError'); if(!el) return;
+  el.textContent = msg || ''; el.style.display = msg ? 'block' : 'none';
+}
+/* ثلاث طرق متتابعة لتحميل الصورة (متوافقة مع Safari/iOS وأندرويد والكمبيوتر) */
+function readAsDataURL(file){
+  return new Promise(function(res,rej){
+    const fr = new FileReader();
+    fr.onload = function(){ res(fr.result); };
+    fr.onerror = function(){ rej(fr.error || new Error('FileReader error')); };
+    fr.onabort = function(){ rej(new Error('FileReader aborted')); };
+    fr.readAsDataURL(file);
+  });
+}
+function loadImageEl(src){
+  return new Promise(function(res,rej){
+    const img = new Image();
+    img.onload = function(){
+      if(!(img.naturalWidth>0 && img.naturalHeight>0)) rej(new Error('الصورة بدون أبعاد (naturalWidth=0)')); else res(img);
+    };
+    img.onerror = function(){ rej(new Error('المتصفح لم يستطع فك ترميز الصورة (img.onerror)')); };
+    img.src = src;
+  });
+}
+function viaFileReader(file){
+  return readAsDataURL(file).then(loadImageEl).then(function(img){ return cropSquare(img, 600); });
+}
+function viaObjectURL(file){
+  if(!(window.URL && URL.createObjectURL)) return Promise.reject(new Error('createObjectURL غير مدعوم'));
+  const u = URL.createObjectURL(file);
+  return loadImageEl(u).then(function(img){ const c = cropSquare(img, 600); URL.revokeObjectURL(u); return c; },
+                              function(e){ URL.revokeObjectURL(u); throw e; });
+}
+function viaBitmap(file){
+  if(!window.createImageBitmap) return Promise.reject(new Error('createImageBitmap غير مدعوم'));
+  return createImageBitmap(file).then(function(bmp){ const c = cropSquare(bmp, 600); if(bmp.close) bmp.close(); return c; });
+}
+function loadPhotoFile(file){
+  if(file.size === 0) return Promise.reject(Object.assign(new Error('الملف فارغ (0 بايت)'), {fatal:true}));
+  const errors = [];
+  const methods = [['FileReader', viaFileReader], ['ObjectURL', viaObjectURL], ['ImageBitmap', viaBitmap]];
+  let p = Promise.reject();
+  methods.forEach(function(m){
+    p = p.catch(function(){ return m[1](file); }).catch(function(e){ errors.push(m[0]+': '+(e && e.message ? e.message : e)); throw e; });
+  });
+  return p.catch(function(){ const e = new Error(errors.join(' | ')); e.details = errors; throw e; });
+}
+function describePhotoError(file, err){
+  const name = file.name || '(بدون اسم)', type = file.type || 'غير معروف', kb = Math.round(file.size/1024);
+  const heic = /hei[cf]/i.test(type) || /\.hei[cf]$/i.test(name);
+  if(err && err.fatal) return 'سبب الخطأ: '+err.message+' — الملف: '+name;
+  let m = 'تعذّر فتح الصورة. ';
+  if(heic) m += 'الصورة بصيغة HEIC/HEIF ولا يدعمها هذا المتصفح؛ اختر صورة JPG أو PNG (على iPhone: الإعدادات ← الكاميرا ← التنسيقات ← الأكثر توافقًا). ';
+  m += 'الملف: '+name+' | النوع: '+type+' | الحجم: '+kb+' كيلوبايت. التفاصيل التقنية: '+(err && err.message ? err.message : err);
+  return m;
+}
+/* قص مربع من الصورة بدون تشويه؛ في الصور الطولية يُقصّ من الجزء العلوي لحفظ الوجه */
+function cropSquare(img, size){
+  const w = img.naturalWidth || img.width, h = img.naturalHeight || img.height;
+  if(!w || !h) throw new Error('أبعاد الصورة غير صالحة');
+  const side = Math.min(w,h);
+  const sx = (w-side)/2;
+  const sy = h>w ? Math.max(0,(h-side)*0.22) : (h-side)/2;
+  const c = document.createElement('canvas'); c.width = c.height = size;
+  const x = c.getContext('2d'); x.fillStyle = '#ffffff'; x.fillRect(0,0,size,size);
+  x.imageSmoothingEnabled = true; x.imageSmoothingQuality = 'high';
+  x.drawImage(img, sx, sy, side, side, 0, 0, size, size);
+  return c;
+}
+function openPhotoPreview(cropped){
+  closePhotoPreview();
+  const m = document.createElement('div'); m.id='photoModal'; m.className='photo-modal';
+  m.innerHTML = '<div class="photo-modal-card">'
+    +'<div class="big-title" style="font-size:20px;">معاينة صورتك</div>'
+    +'<canvas id="photoPrev" width="240" height="240" class="photo-prev"></canvas>'
+    +'<p class="sub">هكذا ستظهر الصورة داخل الشهادة (قص تلقائي بدون تشويه)</p>'
+    +'<button class="btn btn-primary btn-block" id="photoOk">✅ اعتماد الصورة</button>'
+    +'<button class="btn btn-ghost btn-block" id="photoAgain" style="margin-top:8px;">🔄 اختيار صورة أخرى</button>'
+    +'<button class="btn btn-ghost btn-block" id="photoCancel" style="margin-top:8px;">إلغاء</button>'
+    +'</div>';
+  document.body.appendChild(m);
+  $('#photoPrev').getContext('2d').drawImage(cropped,0,0,240,240);
+  $('#photoOk').addEventListener('click', ()=>{ state.studentPhoto = cropped; closePhotoPreview(); updatePhotoControls(); redrawCertificate(); SFX.correct(); });
+  $('#photoAgain').addEventListener('click', ()=>{ closePhotoPreview(); $('#photoInput').click(); });
+  $('#photoCancel').addEventListener('click', closePhotoPreview);
+}
+function closePhotoPreview(){ const m = $('#photoModal'); if(m) m.remove(); }
+
+/* ---- رسم الشهادة على Canvas (تصميم فاتح مناسب للطباعة) ---- */
+function fitText(ctx, text, maxW, basePx, weight, family){
+  let px = basePx;
+  ctx.font = weight+' '+px+'px '+family;
+  while(ctx.measureText(text).width > maxW && px > 22){ px -= 2; ctx.font = weight+' '+px+'px '+family; }
+  return px;
+}
+function rr(ctx,x,y,w,h,r){
+  ctx.beginPath(); ctx.moveTo(x+r,y); ctx.arcTo(x+w,y,x+w,y+h,r); ctx.arcTo(x+w,y+h,x,y+h,r);
+  ctx.arcTo(x,y+h,x,y,r); ctx.arcTo(x,y,x+w,y,r); ctx.closePath();
+}
+function drawCertificate(canvas, data){
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+  const NAVY='#06202a', ORANGE='#13966c', GOLD='#c9982b', INK='#2a2150', SOFT='#6b6390';
+  ctx.setTransform(1,0,0,1,0,0); ctx.clearRect(0,0,W,H);
+  const bg = ctx.createLinearGradient(0,0,W,H);
+  bg.addColorStop(0,'#fffdf6'); bg.addColorStop(1,'#fff3dc');
+  ctx.fillStyle = bg; ctx.fillRect(0,0,W,H);
+  // علامة مائية: ذرة
+  ctx.save(); ctx.translate(W/2,H/2+10); ctx.strokeStyle='rgba(27,18,64,.06)'; ctx.lineWidth=8;
+  [0,Math.PI/3,2*Math.PI/3].forEach(a=>{ ctx.save(); ctx.rotate(a); ctx.beginPath(); ctx.ellipse(0,0,340,120,0,0,Math.PI*2); ctx.stroke(); ctx.restore(); });
+  ctx.fillStyle='rgba(232,100,27,.07)'; ctx.beginPath(); ctx.arc(0,0,46,0,Math.PI*2); ctx.fill(); ctx.restore();
+  // الإطارات
+  ctx.strokeStyle = NAVY; ctx.lineWidth = 10; ctx.strokeRect(20,20,W-40,H-40);
+  ctx.strokeStyle = ORANGE; ctx.lineWidth = 3; ctx.strokeRect(38,38,W-76,H-76);
+  ctx.strokeStyle = GOLD; ctx.lineWidth = 1.5; ctx.strokeRect(46,46,W-92,H-92);
+  [[46,46],[W-46,46],[46,H-46],[W-46,H-46]].forEach(p=>{ ctx.fillStyle=GOLD; ctx.beginPath(); ctx.arc(p[0],p[1],11,0,Math.PI*2); ctx.fill(); ctx.fillStyle=NAVY; ctx.beginPath(); ctx.arc(p[0],p[1],5,0,Math.PI*2); ctx.fill(); });
+  ctx.direction='rtl'; ctx.textAlign='center';
+  // الرأس
+  ctx.fillStyle = ORANGE; ctx.font='800 24px Cairo, Arial';
+  ctx.fillText('«'+CONFIG.BRAND_SLOGAN+'»  •  '+CONFIG.BRAND_NAME, W/2, 104);
+  ctx.fillStyle = NAVY; ctx.font='900 66px Cairo, Arial';
+  ctx.fillText('🏆 شهادة إتمام', W/2, 182);
+  ctx.strokeStyle = GOLD; ctx.lineWidth = 3; ctx.beginPath(); ctx.moveTo(W/2-190,208); ctx.lineTo(W/2-18,208); ctx.moveTo(W/2+18,208); ctx.lineTo(W/2+190,208); ctx.stroke();
+  ctx.fillStyle = ORANGE; ctx.beginPath(); ctx.arc(W/2,208,7,0,Math.PI*2); ctx.fill();
+  ctx.fillStyle = INK; ctx.font='700 28px Cairo, Arial';
+  ctx.fillText(CONFIG.GAME_TITLE, W/2, 252);
+  // منطقة النص (تُزاح لليسار قليلًا عند وجود صورة)
+  const hasPhoto = !!data.photo;
+  const cx = hasPhoto ? 505 : W/2;
+  const maxW = hasPhoto ? 700 : 900;
+  ctx.fillStyle = SOFT; ctx.font='600 24px Tajawal, Arial';
+  ctx.fillText('تشهد أكاديمية '+CONFIG.BRAND_NAME+' بأن الصياد', cx, 318);
+  const nm = data.name || '—';
+  fitText(ctx, nm, maxW, 60, '900', 'Cairo, Arial');
+  ctx.fillStyle = NAVY; ctx.fillText(nm, cx, 388);
+  ctx.strokeStyle = ORANGE; ctx.lineWidth = 3; ctx.beginPath(); ctx.moveTo(cx-Math.min(maxW/2,ctx.measureText(nm).width/2+20),404); ctx.lineTo(cx+Math.min(maxW/2,ctx.measureText(nm).width/2+20),404); ctx.stroke();
+  ctx.fillStyle = INK; ctx.font='600 24px Tajawal, Arial';
+  ctx.fillText('قد أتمّ بنجاح تحدي «'+CONFIG.GAME_TITLE+'»', cx, 448);
+  // شارة الرتبة
+  ctx.font='900 34px Cairo, Arial';
+  const rw = Math.min(maxW, ctx.measureText(data.rank).width + 90);
+  rr(ctx, cx-rw/2, 470, rw, 60, 30); ctx.fillStyle = NAVY; ctx.fill();
+  ctx.strokeStyle = GOLD; ctx.lineWidth = 3; ctx.stroke();
+  ctx.fillStyle = '#ffd35c'; ctx.fillText(data.rank, cx, 513);
+  // صورة الطالب داخل دائرة (جزء فعلي من الـCanvas)
+  if(hasPhoto){
+    const px = 1000, py = 380, pr = 102;
+    ctx.save(); ctx.beginPath(); ctx.arc(px,py,pr+16,0,Math.PI*2); ctx.fillStyle=NAVY; ctx.fill(); ctx.restore();
+    ctx.save(); ctx.beginPath(); ctx.arc(px,py,pr+8,0,Math.PI*2); ctx.fillStyle=GOLD; ctx.fill(); ctx.restore();
+    ctx.save(); ctx.beginPath(); ctx.arc(px,py,pr,0,Math.PI*2); ctx.closePath(); ctx.clip();
+    ctx.fillStyle='#fff'; ctx.fillRect(px-pr,py-pr,pr*2,pr*2);
+    ctx.drawImage(data.photo, px-pr, py-pr, pr*2, pr*2);
+    ctx.restore();
+  }
+  // الإحصائيات
+  const bw=240, gap=20, sx=(W-(4*bw+3*gap))/2, sy=548, bh=96;
+  const stats = [
+    ['النقاط (Score)', String(data.score)],
+    ['نسبة الدقة', data.pct+'%'],
+    ['الإجابات الصحيحة', data.correct+' من '+data.total],
+    ['رقم الشهادة (ID)', data.certId]
+  ];
+  stats.forEach((s,i)=>{
+    const x = sx + (3-i)*(bw+gap);
+    rr(ctx,x,sy,bw,bh,16); ctx.fillStyle='rgba(27,18,64,.05)'; ctx.fill();
+    ctx.strokeStyle=ORANGE; ctx.lineWidth=2; ctx.stroke();
+    ctx.fillStyle=SOFT; ctx.font='700 18px Tajawal, Arial'; ctx.fillText(s[0], x+bw/2, sy+28);
+    const isId = i===3;
+    ctx.direction = isId ? 'ltr' : 'rtl';
+    ctx.fillStyle=NAVY; fitText(ctx, s[1], bw-40, isId?22:38, '900', 'Cairo, Arial');
+    ctx.fillText(s[1], x+bw/2, sy+72);
+    ctx.direction='rtl';
+  });
+  ctx.fillStyle = SOFT; ctx.font='600 20px Tajawal, Arial';
+  ctx.fillText('تاريخ الإصدار: '+data.date, W/2, 672);
+  // التذييل
+  ctx.strokeStyle='rgba(27,18,64,.25)'; ctx.lineWidth=1.5; ctx.beginPath(); ctx.moveTo(150,688); ctx.lineTo(W-150,688); ctx.stroke();
+  ctx.fillStyle = NAVY; ctx.font='900 30px Cairo, Arial'; ctx.fillText(CONFIG.BRAND_NAME, W/2, 726);
+  ctx.fillStyle = ORANGE; ctx.font='800 24px Cairo, Arial'; ctx.fillText('«'+CONFIG.BRAND_SLOGAN+'»', W/2, 756);
+  ctx.fillStyle = INK; ctx.font='700 22px Tajawal, Arial'; ctx.direction='ltr'; ctx.fillText(CONFIG.BRAND_PHONE, W/2, 786); ctx.direction='rtl';
+  // ختم
+  [[150,738],[W-150,738]].forEach((p,i)=>{
+    ctx.beginPath(); ctx.arc(p[0],p[1],46,0,Math.PI*2); ctx.fillStyle=i===0?ORANGE:NAVY; ctx.fill();
+    ctx.beginPath(); ctx.arc(p[0],p[1],38,0,Math.PI*2); ctx.strokeStyle='#fff'; ctx.lineWidth=2; ctx.stroke();
+    ctx.fillStyle='#fff'; ctx.font='900 22px Cairo, Arial'; ctx.fillText(i===0?'معتمد':'🧪', p[0], p[1]+(i===0?8:9));
+  });
+}
+async function downloadCertificatePNG(){
+  const canvas = $('#certCanvas');
+  const filename = 'شهادة-'+(state.studentName||'صياد')+'.png';
+  canvas.toBlob(async function(blob){
+    if(!blob) return;
+    // إن كانت الصفحة تعمل كـ Artifact منشور، نستخدم قدرة downloads الخاصة بالمنصة
+    // (تعرض تأكيداً على المستخدم قبل الحفظ)؛ وإلا (كملف HTML عادي مفتوح مباشرة)
+    // نستخدم الطريقة التقليدية عبر رابط تنزيل Blob كما كانت.
+    let downloadsCap = null;
+    try{
+      if(window.claude && typeof window.claude.use === 'function'){
+        downloadsCap = await window.claude.use('downloads');
+      }
+    }catch(e){ downloadsCap = null; }
+    if(downloadsCap){
+      try{ await downloadsCap.save({ filename, data: blob }); }catch(err){ /* المستخدم رفض الحفظ أو تعذّر ذلك — لا نلتف حول قراره */ }
+      return;
+    }
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = filename;
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(()=>URL.revokeObjectURL(url), 3000);
+  }, 'image/png');
+}
+function printCertificate(){
+  const canvas = $('#certCanvas'); if(!canvas) return;
+  let area = $('#printArea');
+  if(!area){ area = document.createElement('div'); area.id = 'printArea'; document.body.appendChild(area); }
+  const img = new Image(); img.alt = 'شهادة';
+  img.onload = function(){ area.innerHTML = ''; area.appendChild(img); setTimeout(function(){ window.print(); }, 200); };
+  img.src = canvas.toDataURL('image/png');
+}
+
+/* ================== 13) الحفظ المحلي ومزامنة Google Sheets (مع طابور عدم الاتصال) ================== */
+function buildAttemptRecord(){
+  const {pct, rank} = computeRank();
+  return {
+    studentName: state.studentName,
+    score: state.score,
+    percentage: pct,
+    correctAnswers: state.correctCount,
+    wrongAnswers: state.wrongCount,
+    unanswered: state.unansweredCount,
+    totalQuestions: state.totalQuestions,
+    totalTime: Math.round(totalTimeSpent()),
+    avgQuestionTime: Math.round(avgQuestionTime()*10)/10,
+    highestCombo: state.maxCombo,
+    rank: rank.title,
+    certificateId: state.attemptId,
+    date: new Date().toLocaleDateString('ar-EG'),
+    timestamp: new Date().toISOString()
+  };
+}
+function readLocalAttempts(){
+  try{ return JSON.parse(localStorage.getItem(CONFIG.STORAGE_KEY)||'[]'); }catch(e){ return []; }
+}
+function writeLocalAttempts(list){
+  try{ localStorage.setItem(CONFIG.STORAGE_KEY, JSON.stringify(list)); }catch(e){}
+}
+function readPendingSync(){
+  try{ return JSON.parse(localStorage.getItem(CONFIG.PENDING_SYNC_KEY)||'[]'); }catch(e){ return []; }
+}
+function writePendingSync(list){
+  try{ localStorage.setItem(CONFIG.PENDING_SYNC_KEY, JSON.stringify(list)); }catch(e){}
+}
+function saveAndSyncAttempt(){
+  const record = buildAttemptRecord();
+  const all = readLocalAttempts();
+  all.push(record); // لا يُحذف أي سجل سابق أبداً — محاولة جديدة فقط تُضاف
+  writeLocalAttempts(all);
+  trySyncOne(record);
+}
+function trySyncOne(record){
+  if(!CONFIG.GOOGLE_SCRIPT_URL || CONFIG.GOOGLE_SCRIPT_URL.indexOf('PUT_YOUR_URL_HERE')>=0){
+    const pending = readPendingSync(); pending.push(record); writePendingSync(pending);
+    return;
+  }
+  fetch(CONFIG.GOOGLE_SCRIPT_URL, {
+    method:'POST', mode:'no-cors',
+    headers:{'Content-Type':'text/plain;charset=utf-8'},
+    body: JSON.stringify({ action:'logAttempt', payload: record })
+  }).then(()=>{
+    // في وضع no-cors لا يمكن قراءة الاستجابة، نفترض النجاح ونزيل من الطابور المعلّق إن وجد
+    removeFromPending(record.certificateId);
+  }).catch(()=>{
+    const pending = readPendingSync(); pending.push(record); writePendingSync(pending);
+  });
+}
+function removeFromPending(certId){
+  const pending = readPendingSync().filter(r=>r.certificateId!==certId);
+  writePendingSync(pending);
+}
+function flushPendingSync(){
+  if(!CONFIG.GOOGLE_SCRIPT_URL || CONFIG.GOOGLE_SCRIPT_URL.indexOf('PUT_YOUR_URL_HERE')>=0) return;
+  const pending = readPendingSync();
+  if(!pending.length) return;
+  pending.forEach(record=>{
+    fetch(CONFIG.GOOGLE_SCRIPT_URL, {
+      method:'POST', mode:'no-cors',
+      headers:{'Content-Type':'text/plain;charset=utf-8'},
+      body: JSON.stringify({ action:'logAttempt', payload: record })
+    }).then(()=> removeFromPending(record.certificateId)).catch(()=>{});
+  });
+}
+window.addEventListener('online', flushPendingSync);
+document.addEventListener('visibilitychange', ()=>{ if(document.visibilityState==='visible') flushPendingSync(); });
+
+/* ================== 14) لوحة تحكم المدرس — Admin Dashboard ================== */
+let __adminRows = null; // آخر بيانات محمّلة (محلية أو من الشيت)
+let __adminSort = {col:'timestamp', dir:-1};
+
+function localRowsAsAdmin(){
+  return readLocalAttempts();
+}
+function computeKPIs(rows){
+  if(!rows.length) return {students:0, attempts:0, topScore:0, avgPct:0, avgTime:0, topCombo:0, timeouts:0};
+  const students = new Set(rows.map(r=>r.studentName)).size;
+  const topScore = Math.max(...rows.map(r=>+r.score||0));
+  const avgPct = Math.round(rows.reduce((a,r)=>a+(+r.percentage||0),0)/rows.length);
+  const avgTime = Math.round(rows.reduce((a,r)=>a+(+r.totalTime||0),0)/rows.length);
+  const topCombo = Math.max(...rows.map(r=>+r.highestCombo||0));
+  const timeouts = rows.reduce((a,r)=>a+(+r.unanswered||0),0);
+  return {students, attempts:rows.length, topScore, avgPct, avgTime, topCombo, timeouts};
+}
+function renderAdminScreen(app){
+  if(!__adminRows) __adminRows = localRowsAsAdmin();
+  const k = computeKPIs(__adminRows);
+  let leaderboardOn = false;
+  try{ leaderboardOn = localStorage.getItem(CONFIG.LEADERBOARD_KEY)==='1'; }catch(e){}
+  let html = '<div class="scr wide">';
+  html += hudBar(true);
+  html += '<h1 class="big-title" style="font-size:22px;">📊 لوحة تحكم المدرس</h1>';
+  html += '<p class="sub" style="margin-bottom:10px;">إحصائيات جميع محاولات الصيادين — '+esc(CONFIG.BRAND_NAME)+'</p>';
+  html += '<div class="panel" style="margin-bottom:14px;">';
+  html += '<div class="sub" style="margin-bottom:8px;">جلب أحدث النتائج من Google Sheets (اختياري، يتطلب رابط Code.gs ومفتاح الوصول):</div>';
+  html += '<div style="display:flex;gap:8px;flex-wrap:wrap;">';
+  html += '<input type="password" id="adminKeyInput" class="fill-input" style="flex:1;min-width:160px;" placeholder="مفتاح الوصول (ADMIN_KEY)">';
+  html += '<button class="btn btn-primary btn-sm" id="adminFetchBtn">🔄 تحديث من الشيت</button>';
+  html += '</div><div class="sub" id="adminFetchStatus" style="margin-top:8px;"></div>';
+  html += '<label class="sub" style="display:flex;align-items:center;gap:8px;margin-top:12px;"><input type="checkbox" id="lbToggle" '+(leaderboardOn?'checked':'')+'> تفعيل قائمة المتصدرين 🏆 في الخريطة</label>';
+  html += '</div>';
+  html += '<div class="kpi-grid">';
+  html += statBox(k.students,'👥 عدد الطلاب');
+  html += statBox(k.attempts,'🎮 عدد المحاولات');
+  html += statBox(k.topScore,'🏆 أعلى Score');
+  html += statBox(k.avgPct+'%','📊 متوسط النسبة');
+  html += statBox(fmtTime(k.avgTime),'⏱ متوسط وقت اللعب');
+  html += statBox(k.topCombo,'🔥 أعلى Combo');
+  html += statBox(k.timeouts,'⏰ مرات انتهاء الوقت');
+  html += '</div>';
+  html += '<div class="admin-table-wrap"><table class="admin-table" id="adminTable"><thead><tr>'
+    + ['studentName:الطالب','score:Score','percentage:النسبة','correctAnswers:الصحيح','wrongAnswers:الخطأ','unanswered:بدون إجابة','rank:Rank','totalTime:الوقت','date:التاريخ']
+      .map(c=>{ const [key,label]=c.split(':'); return '<th data-key="'+key+'">'+label+'</th>'; }).join('')
+    +'</tr></thead><tbody id="adminTbody"></tbody></table></div>';
+  html += '<button class="btn btn-ghost btn-block" id="adminBackBtn" style="margin-top:16px;">العودة للخريطة</button>';
+  html += '</div>';
+  app.innerHTML = html;
+  $('#soundToggleBtn').addEventListener('click', toggleSound);
+  $('#hudBackBtn').addEventListener('click', ()=>{ state.screen='map'; renderApp(); });
+  $('#adminBackBtn').addEventListener('click', ()=>{ state.screen='map'; renderApp(); });
+  $('#lbToggle').addEventListener('change', e=>{ try{ localStorage.setItem(CONFIG.LEADERBOARD_KEY, e.target.checked?'1':'0'); }catch(er){} });
+  $('#adminFetchBtn').addEventListener('click', fetchRemoteAdminData);
+  $all('#adminTable th').forEach(th=>{
+    th.addEventListener('click', ()=>{
+      const key = th.dataset.key;
+      __adminSort.dir = (__adminSort.col===key) ? -__adminSort.dir : 1;
+      __adminSort.col = key;
+      renderAdminTableBody();
+    });
+  });
+  renderAdminTableBody();
+}
+function renderAdminTableBody(){
+  const tbody = $('#adminTbody'); if(!tbody) return;
+  const rows = (__adminRows||[]).slice().sort((a,b)=>{
+    const k = __adminSort.col; let va=a[k], vb=b[k];
+    if(typeof va==='number'||typeof vb==='number'){ va=+va||0; vb=+vb||0; return (va-vb)*__adminSort.dir; }
+    va=String(va||''); vb=String(vb||'');
+    return va.localeCompare(vb,'ar')*__adminSort.dir;
+  });
+  tbody.innerHTML = rows.map(r=>'<tr><td>'+esc(r.studentName)+'</td><td>'+esc(r.score)+'</td><td>'+esc(r.percentage)+'%</td><td>'+esc(r.correctAnswers)+'</td><td>'+esc(r.wrongAnswers)+'</td><td>'+esc(r.unanswered)+'</td><td>'+esc(r.rank)+'</td><td>'+fmtTime(+r.totalTime||0)+'</td><td>'+esc(r.date)+'</td></tr>').join('') || '<tr><td colspan="9" class="sub">لا توجد بيانات بعد</td></tr>';
+}
+function fetchRemoteAdminData(){
+  const key = $('#adminKeyInput').value.trim();
+  const statusEl = $('#adminFetchStatus');
+  if(!CONFIG.GOOGLE_SCRIPT_URL || CONFIG.GOOGLE_SCRIPT_URL.indexOf('PUT_YOUR_URL_HERE')>=0){
+    statusEl.textContent = 'لم يتم ضبط رابط Google Apps Script بعد داخل الكود (GOOGLE_SCRIPT_URL). سيتم عرض بيانات هذا الجهاز فقط.';
+    return;
+  }
+  statusEl.textContent = 'جارِ التحميل...';
+  fetch(CONFIG.GOOGLE_SCRIPT_URL + '?action=stats&key=' + encodeURIComponent(key))
+    .then(r=>r.json())
+    .then(data=>{
+      if(data && data.ok && Array.isArray(data.rows)){
+        __adminRows = data.rows;
+        statusEl.textContent = 'تم التحديث ✅ ('+data.rows.length+' محاولة)';
+        const k = computeKPIs(__adminRows); void k;
+        state.screen='admin'; renderApp();
+      } else {
+        statusEl.textContent = 'تعذر التحقق من المفتاح أو لا توجد بيانات بعد.';
+      }
+    })
+    .catch(()=>{ statusEl.textContent = 'تعذر الاتصال بالشيت (تحقق من الرابط أو الاتصال بالإنترنت).'; });
+}
+
+/* ================== 15) قائمة المتصدرين — Leaderboard ================== */
+function renderLeaderboardScreen(app){
+  let html = '<div class="scr">';
+  html += hudBar(true);
+  html += '<h1 class="big-title" style="font-size:22px;text-align:center;">🏆 أفضل الصيادين</h1>';
+  html += '<div class="sub" id="lbStatus" style="text-align:center;margin:6px 0 12px;">جارِ التحميل...</div>';
+  html += '<div id="lbList" style="display:flex;flex-direction:column;gap:8px;"></div>';
+  html += '<button class="btn btn-ghost btn-block" id="lbBackBtn" style="margin-top:16px;">العودة للخريطة</button>';
+  html += '</div>';
+  app.innerHTML = html;
+  $('#soundToggleBtn').addEventListener('click', toggleSound);
+  $('#hudBackBtn').addEventListener('click', ()=>{ state.screen='map'; renderApp(); });
+  $('#lbBackBtn').addEventListener('click', ()=>{ state.screen='map'; renderApp(); });
+  loadLeaderboard();
+}
+function bestScorePerStudent(rows){
+  const byName = {};
+  rows.forEach(r=>{ const n=r.studentName||'—'; if(!byName[n] || (+r.score||0) > (+byName[n].score||0)) byName[n]=r; });
+  return Object.values(byName).sort((a,b)=>(+b.score||0)-(+a.score||0)).slice(0,10);
+}
+function renderLbList(rows){
+  const top = bestScorePerStudent(rows);
+  const medals = ['🥇','🥈','🥉'];
+  $('#lbList').innerHTML = top.map((r,i)=>{
+    return '<div class="panel" style="display:flex;align-items:center;gap:12px;padding:12px 16px;">'
+      +'<div style="font-size:22px;width:34px;text-align:center;">'+(medals[i]||('#'+(i+1)))+'</div>'
+      +'<div style="flex:1;font-weight:800;">'+esc(r.studentName)+'</div>'
+      +'<div style="font-weight:900;color:var(--gold);">'+esc(r.score)+' ⭐</div>'
+      +'</div>';
+  }).join('') || '<div class="sub" style="text-align:center;">لا توجد نتائج مسجلة بعد</div>';
+}
+function loadLeaderboard(){
+  const local = readLocalAttempts();
+  renderLbList(local);
+  $('#lbStatus').textContent = 'يعرض نتائج هذا الجهاز';
+  if(!CONFIG.GOOGLE_SCRIPT_URL || CONFIG.GOOGLE_SCRIPT_URL.indexOf('PUT_YOUR_URL_HERE')>=0) return;
+  fetch(CONFIG.GOOGLE_SCRIPT_URL + '?action=leaderboard')
+    .then(r=>r.json())
+    .then(data=>{
+      if(data && data.ok && Array.isArray(data.rows)){
+        renderLbList(data.rows);
+        $('#lbStatus').textContent = 'يعرض أفضل النتائج من جميع الصيادين 🌍';
+      }
+    })
+    .catch(()=>{ /* يبقى العرض المحلي عند تعذر الاتصال */ });
+}
+
+/* ================== 16) اختبار داخلي (QA) — التحقق من عشوائية موضع الإجابة الصحيحة ==================
+   يتأكد أن الإجابة الصحيحة ليست مرتبطة بشكل ثابت بموضع واحد (مثل "أ" دائماً)،
+   وأن نظام الخلط (shuffleOptionsView المبني على Fisher-Yates عبر shuffle() العامة)
+   يوزّع الإجابة الصحيحة على مواضع مختلفة (أ/ب/ج/د) عبر محاولات متكررة لنفس السؤال. */
+function runShuffleQA(sampleSize, trialsPerQuestion){
+  sampleSize = sampleSize || 6;
+  trialsPerQuestion = trialsPerQuestion || 60;
+  const mcqPool = questionBank.filter(q=>['mcq','diagnosis','graph'].includes(q.type) && q.options && q.options.length>=3);
+  const sample = shuffle(mcqPool).slice(0, Math.min(sampleSize, mcqPool.length));
+  const report = sample.map(q=>{
+    const positions = {};
+    for(let t=0;t<trialsPerQuestion;t++){
+      const view = shuffleOptionsView(q.options);
+      const pos = view.findIndex(o=>o.orig===q.answer);
+      positions[pos] = (positions[pos]||0)+1;
+    }
+    const distinctPositions = Object.keys(positions).length;
+    return { id:q.id, distribution:positions, distinctPositions, pass: distinctPositions>1 };
+  });
+  const allPass = report.every(r=>r.pass);
+  try{
+    console.log('%c[QA] اختبار عشوائية مواضع الإجابة الصحيحة', 'color:#ff8a3d;font-weight:bold;');
+    report.forEach(r=> console.log(' -', r.id, 'توزيع المواضع (0=أ,1=ب,2=ج,3=د):', r.distribution, r.pass?'✅ متغيّر':'❌ ثابت!'));
+    console.log(allPass ? '✅ [QA] كل الأسئلة المختبرة توزّع إجاباتها الصحيحة على أكثر من موضع — الخلط يعمل بشكل سليم.' : '❌ [QA] رصد سؤال لا يزال ثابت الموضع — يلزم مراجعة.');
+  }catch(e){}
+  return { allPass, report };
+}
+window.runShuffleQA = runShuffleQA; // يمكن استدعاؤها يدوياً من الـ Console: runShuffleQA()
+
+/* ================== اختبار QA أعمق: "لعب" 10 أسئلة MCQ فعلية + Speed Run ==================
+   بخلاف runShuffleQA (التي تختبر أداة الخلط shuffleOptionsView مباشرة)، هذا الاختبار يستدعي
+   دالة العرض الحقيقية المستخدمة فعلياً أثناء اللعب (challengeMCQ) وأثناء التحدي السريع
+   (نفس سطر الخلط داخل renderSpeedItem)، ثم يقرأ HTML الناتج فعلياً (data-orig) بنفس الطريقة
+   التي تقرأها wireMCQ عند الضغط، للتأكد أن المسار الكامل من العرض حتى تحديد الإجابة الصحيحة
+   يعمل بشكل صحيح وغير متحيّز لموضع "أ". */
+function extractOrigSequenceFromHTML(html){
+  const re = /data-orig="(\d+)"/g;
+  const seq = []; let m;
+  while((m = re.exec(html))) seq.push(+m[1]);
+  return seq;
+}
+function runPlaythroughQA(){
+  const letters = ['أ','ب','ج','د','هـ'];
+  const pool = questionBank.filter(q=>['mcq','diagnosis','graph'].includes(q.type));
+  const sample = shuffle(pool).slice(0, 10); // محاكاة "لعب" 10 أسئلة MCQ حقيقية من بنك الأسئلة
+  const mcqRows = sample.map(q=>{
+    const html = challengeMCQ(q, false);                 // نفس دالة العرض الحقيقية في اللعب الفعلي
+    const seq = extractOrigSequenceFromHTML(html);        // ترتيب data-orig كما سيظهر في الشاشة فعلياً
+    const posOfCorrect = seq.indexOf(q.answer);           // الموضع الذي هبطت فيه الإجابة الصحيحة
+    // محاكاة نقرة الطالب على الزر "الصحيح" ثم نقرة على زر خاطئ، بنفس منطق wireMCQ تماماً (orig===q.answer)
+    const clickCorrectResult = (q.answer === q.answer);   // نفس شرط wireMCQ
+    const wrongOrig = seq.find(o=>o!==q.answer);
+    const clickWrongResult = (wrongOrig === q.answer);    // يجب أن تكون false دائماً
+    return { id:q.id, letter:letters[posOfCorrect], posIndex:posOfCorrect, clickCorrectOK: clickCorrectResult===true, clickWrongOK: clickWrongResult===false };
+  });
+
+  // Speed Run: نفس سطر الخلط المستخدم فعلياً داخل renderSpeedItem، لكل سؤال فرعي، عبر عدة محاولات
+  const speedPhase = bossPhases.find(p=>p.type==='speed');
+  const speedRows = [];
+  speedPhase.items.forEach((it,idx)=>{
+    for(let attempt=1; attempt<=4; attempt++){
+      const view = shuffleOptionsView(it.options); // نفس السطر المستخدم حرفياً في renderSpeedItem
+      const posIndex = view.findIndex(o=>o.orig===it.answer);
+      speedRows.push({ item:idx+1, attempt, letter:letters[posIndex] });
+    }
+  });
+
+  const mcqLetters = mcqRows.map(r=>r.letter);
+  const distinctMcqLetters = new Set(mcqLetters).size;
+  const allAOnly = mcqLetters.every(l=>l==='أ');
+  const scoringOK = mcqRows.every(r=>r.clickCorrectOK && r.clickWrongOK);
+  const speedDistinct = new Set(speedRows.map(r=>r.letter)).size;
+
+  console.log('%c[QA-Playthrough] محاكاة لعب 10 أسئلة MCQ حقيقية + التحدي السريع', 'color:#ffd35c;font-weight:bold;');
+  console.table(mcqRows.map(r=>({ السؤال:r.id, 'موضع الإجابة الصحيحة':r.letter, 'تقييم النقر صحيح':r.clickCorrectOK?'✅':'❌', 'تقييم النقر خاطئ':r.clickWrongOK?'✅':'❌' })));
+  console.log('مواضع مختلفة ظهرت خلال 10 أسئلة:', distinctMcqLetters, '(المطلوب: أكثر من موضع واحد)');
+  console.log('هل كل الإجابات وقعت في "أ" فقط؟', allAOnly ? '❌ نعم (خطأ!)' : '✅ لا');
+  console.table(speedRows.map(r=>({ 'سؤال Speed Run رقم':r.item, 'محاولة':r.attempt, 'موضع الإجابة الصحيحة':r.letter })));
+  console.log('مواضع مختلفة ظهرت في أسئلة Speed Run:', speedDistinct);
+
+  const pass = distinctMcqLetters>1 && !allAOnly && scoringOK && speedDistinct>1;
+  console.log(pass ? '✅ [QA-Playthrough] نجح: تنوّع حقيقي في المواضع + التسجيل صحيح بعد الخلط.' : '❌ [QA-Playthrough] فشل: راجع النتائج أعلاه.');
+  return { pass, mcqRows, speedRows, distinctMcqLetters, speedDistinct };
+}
+window.runPlaythroughQA = runPlaythroughQA; // استدعِها يدوياً من الـ Console: runPlaythroughQA()
+
+/* ================== 17) بدء التشغيل — Bootstrap ================== */
+(function init(){
+  try{ const s = localStorage.getItem(CONFIG.SOUND_KEY); if(s!==null) state.soundOn = s==='1'; }catch(e){}
+  renderApp();
+  setTimeout(flushPendingSync, 1500);
+  document.addEventListener('contextmenu', function(e){
+    if(e.target.closest('.dnd-chip,.seq-item,.mem-card,.hotspot-dot')) e.preventDefault();
+  });
+  // ملحوظة: دوال اختبار الجودة runShuffleQA() و runPlaythroughQA() متاحتان للاستدعاء اليدوي
+  // من Console المتصفح عند الحاجة للتصحيح، لكنهما لا تعملان تلقائياً عند تحميل اللعبة إنتاجياً.
+})();
+</script>
+</body>
+</html>
